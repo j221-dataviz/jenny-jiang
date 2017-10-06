@@ -9,6 +9,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(readr)
 library(readxl)
+library(plyr)
+library(dplyr)
+library(stringr)
+library(tidyr)
+library(reshape2)
+library(tidyverse)
 setwd("~/Desktop/week7")
 save.image("~/Desktop/week7/week7.RData")
 ```
@@ -18,6 +24,7 @@ save.image("~/Desktop/week7/week7.RData")
 
 ### load data
 ```{r}
+setwd("~/Desktop/week7")
 pfizer <- read_csv("pfizer.csv")
 fda <- read_csv("fda.csv")
 ```
