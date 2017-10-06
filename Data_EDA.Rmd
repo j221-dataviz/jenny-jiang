@@ -1,0 +1,26 @@
+---
+title: "in-class exampljournalism"
+author: "Shangjun Jiang"
+date: "10/6/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(readxl)
+setwd("~/Desktop/week7")
+save.image("~/Desktop/week7/week7.RData")
+```
+
+
+
+
+### load data
+```{r}
+pfizer <- read_csv("pfizer.csv")
+fda <- read_csv("fda.csv")
+```
+
+
+
