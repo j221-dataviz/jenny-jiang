@@ -1,5 +1,9 @@
 # jenny-jiang
 
+#### [Educational Attainment for Workers 25 years and older by detailed occupation](https://www.bls.gov/emp/ep_table_111.htm)
+
+
+
  I [searched the archive](https://www.bls.gov/bls/news-release/home.htm#ECOPRO) but didn't find the dataset. However, I was able to get 2008, 2009, 2010-2011, 2012-2013, 2014-2015 (they changed the method to combine two years together) using wayback machine.
 
 I found [similar dataset on this page](https://www.bls.gov/emp/ep_education_training_system.htm) 
