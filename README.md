@@ -2,6 +2,9 @@
 
 #### [Educational Attainment for Workers 25 years and older by detailed occupation](https://www.bls.gov/emp/ep_table_111.htm)
 
+1. Is the industry becoming education-biased? 
+2. Education and salary and different industries 
+
 
 
  I [searched the archive](https://www.bls.gov/bls/news-release/home.htm#ECOPRO) but didn't find the dataset. However, I was able to get 2008, 2009, 2010-2011, 2012-2013, 2014-2015 (they changed the method to combine two years together) using wayback machine.

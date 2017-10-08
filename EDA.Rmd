@@ -1,0 +1,147 @@
+---
+title: "education skills job"
+author: "Shangjun Jiang"
+date: "29/09/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(MASS)
+library(hexbin)
+library(corrplot)
+library(car)
+library(ggplot2)
+require(methods)
+require("leaps")
+library(tidyr)
+library(reshape2)
+library(ridge)
+require(lars)
+library(descr)
+library(stringr)
+library(readr)
+library(readxl)
+library(tidyverse)
+library(plyr)
+library(dplyr)
+#setwd("~/Desktop/week7")
+#save.image("~/Desktop/week7/week7.RData")
+#setwd("~/Desktop/labor data")
+
+setwd("~/Desktop/jenny-jiang")
+```
+
+
+```{r}
+setwd("~/Desktop/jenny-jiang")
+########################  EDUCATION by detailed occupations ########################  
+edu1015long <- read.csv("edu1015long.csv")
+edu1015long$year <- as.factor(edu1015long$year)
+#str(edu1015long)
+
+########################  EDUCATION AND UNEMPLOYMENT RATE ########################  
+unemploy1216 <- read.csv("unemploy1216.csv")
+unemploy1216$education <- as.factor(unemploy1216$education)
+unemploy1216$year <- as.factor(unemploy1216$year)
+unemploy1216$X <- NULL
+#str(unemploy1216)
+
+
+######################## EDUCATION AND TRAINING ASSIGNMENTS BY DETAILED OCCUPATION ##################
+edutrain1014 <- read.csv("edutrain1014.csv")
+edutrain1014$year <- as.factor(edutrain1014$year)
+edutrain1014$X <- NULL
+
+#str(edutrain1014)
+
+########################  EMPLOYMENT PROJECTION ########################
+employ_proj1214 <- read.csv("employ_proj1214.csv")
+employ_proj1214$year <- as.factor(employ_proj1214$year)
+employ_proj1214$annual_wage <- as.numeric(employ_proj1214$annual_wage)
+employ_proj1214$X <- NULL
+#str(employ_proj1214)
+
+
+```
+
+### some plots 
+```{r}
+
+
+ggplot(edu1015long, aes(x=year, y=degrees, fill=degrees))+
+  geom_bar(width = 1, stat = "identity")
+
+
+total <- edu1015long[edu1015long$code == "00-0000",]
+ggplot(total) +
+  geom_point(aes(x=degrees,y=number, color=year))
+
+#total14 <- total[total$year == "2014",]
+
+ggplot(total, aes(x=year, y=number, fill=degrees))+
+geom_bar(width = 1, stat = "identity")
+
+ggplot(total, aes(x=year, y=number, group=degrees, color =degrees)) +
+geom_line() +
+     geom_point() 
+
+ggplot(total, aes(x=year, y=number, fill=degrees))+
+geom_bar(width = 1, stat = "identity") + coord_polar("y", start=0)
+
+
+ggplot(total, aes(x=year, y=number, fill=degrees)) + 
+  geom_bar(stat="identity")
+
+
+```
+
+chief executives
+
+```{r}
+
+
+chief_executives <- edu1015long[edu1015long$code == "11-1011",]
+
+ggplot(chief_executives, aes(x=year, y=number, fill=degrees))+
+geom_bar(width = 1, stat = "identity")
+
+ggplot(chief_executives, aes(x=year, y=number, group=degrees, color =degrees)) +
+geom_line() +
+     geom_point() 
+
+ggplot(chief_executives, aes(x=year, y=number, fill=degrees))+
+geom_bar(width = 1, stat = "identity") + coord_polar("y", start=0)
+
+
+ggplot(chief_executives, aes(x=year, y=number, fill=degrees)) + 
+  geom_bar(stat="identity")
+
+```
+
+
+
+## EDUCATION AND UNEMPLOYMENT RATE
+```{r}
+ggplot(unemploy1216, aes(x=education, y=weekly_wage, fill=year))+
+  geom_bar(width = 1, stat = "identity")
+
+```
+
+
+## EMPLOYMENT PROJECTION
+
+
+
+##EDUCATION AND TRAINING ASSIGNMENTS BY DETAILED OCCUPATION
+this is more of reference/ code book. 
+ 
+```{r}
+
+```
+
+
+
+
+
+
