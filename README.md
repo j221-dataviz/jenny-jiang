@@ -7,9 +7,9 @@
 
 
 There are two RMarkdown files. The first one is the cleaning and joining dataset together.
-1. all_dat_set_clean.Rmd 
+1. `all_dat_set_clean.Rmd` 
 This one contains cleaning/joining of different years.
-2. EDA.Rmd
+2. `EDA.Rmd`
 This one loads the cleaned dataset and some plots. I only ploted `EDUCATION by detailed occupations`  but didn't find anything very interesting. 
 I am still working on the other four datasets and hope I could find some useful/insightful things.
 
