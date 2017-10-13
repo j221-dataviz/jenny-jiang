@@ -124,12 +124,21 @@ ggplot(chief_executives, aes(x=year, y=number, fill=degrees)) +
 ## EDUCATION AND UNEMPLOYMENT RATE
 ```{r}
 ggplot(unemploy1216, aes(x=education, y=weekly_wage, fill=year))+
-  geom_bar(width = 1, stat = "identity")
+  geom_bar(width = 1, stat = "identity") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
 
 ```
 
 
 ## EMPLOYMENT PROJECTION
+
+
+```{r}
+employ_proj1214
+
+
+```
 
 
 
