@@ -134,11 +134,41 @@ edu1015 <- full_join(edu1215, edu1011)
 # OCCUPATIONS THAT NEED MORE EDUCATION FOR ENTRY ARE PROJECTED TO GROW FASTER
 ### load data
 ```{r}
+## Typical entry-level education
 "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx"
-ocu_project14 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 1)
-ocu_project10 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 2)
-ocu_project12 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 3)
+edu_level14 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 1)
+edu_level12 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 2)
+edu_level10 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 3)
 
+edu_level14$year <- "2014"
+edu_level12$year <- "2012"
+edu_level10$year <- "2010"
+
+
+edu_level1210 <-  full_join(edu_level10, edu_level12)
+edu_level1014 <-  full_join(edu_level14, edu_level1210)
+#write.csv(edu_level1014,"edu_level1014.csv")
+
+job_training12 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 4)
+job_training10 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 5)
+
+job_training12$year <- "2012"
+job_training10$year <- "2010"
+
+job_training1012 <- full_join(job_training12, job_training10)
+
+#write.csv(job_training1012,"job_training1012.csv")
+
+work_experience12 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 6)
+work_experience10 <- read_excel(path = "Occupations that Need More Education for Entry are Projected to Grow Faster.xlsx", sheet = 7)
+
+work_experience12$year <- "2012"
+work_experience10$year <- "2010"
+
+work_experience1012 <- full_join(work_experience12, work_experience10)
+
+
+write.csv(work_experience1012,"work_experience1012.csv")
 
 
 
@@ -185,6 +215,8 @@ colnames(employ_proj14) <- c("occupation", "code", "employ1", "employ2", "change
 employ_proj1214 <-  full_join(employ_proj14, employ_proj12)
 
 #write.csv(employ_proj1214, "employ_proj1214.csv")
+
+
 
 ```
 

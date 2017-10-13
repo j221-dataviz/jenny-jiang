@@ -38,34 +38,51 @@ setwd("~/Desktop/jenny-jiang")
 ########################  EDUCATION by detailed occupations ########################  
 edu1015long <- read.csv("edu1015long.csv")
 edu1015long$year <- as.factor(edu1015long$year)
-#str(edu1015long)
+str(edu1015long)
 
 ########################  EDUCATION AND UNEMPLOYMENT RATE ########################  
 unemploy1216 <- read.csv("unemploy1216.csv")
 unemploy1216$education <- as.factor(unemploy1216$education)
 unemploy1216$year <- as.factor(unemploy1216$year)
 unemploy1216$X <- NULL
-#str(unemploy1216)
+str(unemploy1216)
 
 
 ######################## EDUCATION AND TRAINING ASSIGNMENTS BY DETAILED OCCUPATION ##################
 edutrain1014 <- read.csv("edutrain1014.csv")
 edutrain1014$year <- as.factor(edutrain1014$year)
 edutrain1014$X <- NULL
-
-#str(edutrain1014)
+str(edutrain1014)
 
 ########################  EMPLOYMENT PROJECTION ########################
 employ_proj1214 <- read.csv("employ_proj1214.csv")
 employ_proj1214$year <- as.factor(employ_proj1214$year)
 employ_proj1214$annual_wage <- as.numeric(employ_proj1214$annual_wage)
 employ_proj1214$X <- NULL
-#str(employ_proj1214)
+str(employ_proj1214)
+
+
+############### OCCUPATIONS THAT NEED MORE EDUCATION FOR ENTRY ARE PROJECTED TO GROW FASTER ########################
+edu_level1014 <- read.csv("edu_level1014.csv")
+edu_level1014$X <- NULL
+edu_level1014$year <- as.factor(edu_level1014$year)
+
+job_training1012 <- read.csv("job_training1012.csv")
+job_training1012$X <- NULL
+job_training1012$year <- as.factor(job_training1012$year)
+
+work_experience1012 <- read.csv("work_experience1012.csv")
+work_experience1012$X <- NULL
+work_experience1012$year <- as.factor(work_experience1012$year)
+
+str(edu_level1014)
+str(job_training1012)
+str(work_experience1012)
 
 
 ```
 
-### some plots 
+### EDUCATION by detailed occupations
 ```{r}
 
 
@@ -96,7 +113,7 @@ ggplot(total, aes(x=year, y=number, fill=degrees)) +
 
 ```
 
-chief executives
+#### chief executives
 
 ```{r}
 
@@ -135,7 +152,7 @@ ggplot(unemploy1216, aes(x=education, y=weekly_wage, fill=year))+
 
 
 ```{r}
-employ_proj1214
+#employ_proj1214
 
 
 ```
@@ -146,6 +163,9 @@ employ_proj1214
 this is more of reference/ code book. 
  
 ```{r}
+
+#edutrain1014
+
 
 ```
 
