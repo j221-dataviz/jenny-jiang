@@ -5,6 +5,57 @@ date: "29/09/2017"
 output: html_document
 ---
 
+
+
+1. total by jobs, detaield education by year
+TOTAL NUMBER
+
+big effect
+
+by aboslute numbers
+range calculations.
+within job types
+
+how many people in each type of jobs
+
+certain jobs really change
+
+percentage data, range really high
+divide by bachelor, above and below,high school
+
+jobs by occupations
+
+numbers for all occupations. 
+
+change within overall occupations 
+
+facet slope graph 
+
+#### separate percentage and numebrs. 
+join employment number and percentage. education by detailed occupations 
+
+
+
+2. employment projection.
+2012 total numbers and projections. 2012-2022;  2014-2024
+line chart. 
+
+absolute numbers.
+outliers. 
+
+jobs emerging. education-under-class
+high education
+any go other directions. 
+
+
+3. by dot and lines
+year, wage, degrees color
+year, unemployment, degrees color 
+calculate, changes, percentage, 
+
+
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 require(MASS)
@@ -23,7 +74,7 @@ library(stringr)
 library(readr)
 library(readxl)
 library(tidyverse)
-library(plyr)
+#library(plyr)
 library(dplyr)
 #setwd("~/Desktop/week7")
 #save.image("~/Desktop/week7/week7.RData")
@@ -38,28 +89,55 @@ setwd("~/Desktop/jenny-jiang")
 ########################  EDUCATION by detailed occupations ########################  
 edu1015long <- read.csv("edu1015long.csv")
 edu1015long$year <- as.factor(edu1015long$year)
-str(edu1015long)
+#str(edu1015long)
+edu1015long$edu <- edu1015long$degrees
+#levels(edu1015long$degrees)
+
+# college +
+levels(edu1015long$edu)[levels(edu1015long$edu)=="bachelor"] <- "college+"
+levels(edu1015long$edu)[levels(edu1015long$edu)=="doctor/professional"] <- "college+"
+levels(edu1015long$edu)[levels(edu1015long$edu)=="master"] <- "college+"
+# hs - college
+levels(edu1015long$edu)[levels(edu1015long$edu)=="some college, no degree"] <- "hs+"
+levels(edu1015long$edu)[levels(edu1015long$edu)=="associate"] <- "hs+"
+
+# hs -
+levels(edu1015long$edu)[levels(edu1015long$edu)=="high school"] <- "hs-"
+levels(edu1015long$edu)[levels(edu1015long$edu)=="less hs"] <- "hs-"
+levels(edu1015long$edu)
+
+#str(edu1015long)
+
+
+#7389
+edu_occ_summary <- edu1015long %>%
+  group_by(year, edu, code, year) %>%
+  summarize(sum=sum(number, na.rm=T))
+
+
+
+
 
 ########################  EDUCATION AND UNEMPLOYMENT RATE ########################  
 unemploy1216 <- read.csv("unemploy1216.csv")
 unemploy1216$education <- as.factor(unemploy1216$education)
 unemploy1216$year <- as.factor(unemploy1216$year)
 unemploy1216$X <- NULL
-str(unemploy1216)
+#str(unemploy1216)
 
 
 ######################## EDUCATION AND TRAINING ASSIGNMENTS BY DETAILED OCCUPATION ##################
 edutrain1014 <- read.csv("edutrain1014.csv")
 edutrain1014$year <- as.factor(edutrain1014$year)
 edutrain1014$X <- NULL
-str(edutrain1014)
+#str(edutrain1014)
 
 ########################  EMPLOYMENT PROJECTION ########################
 employ_proj1214 <- read.csv("employ_proj1214.csv")
 employ_proj1214$year <- as.factor(employ_proj1214$year)
 employ_proj1214$annual_wage <- as.numeric(employ_proj1214$annual_wage)
 employ_proj1214$X <- NULL
-str(employ_proj1214)
+#str(employ_proj1214)
 
 
 ############### OCCUPATIONS THAT NEED MORE EDUCATION FOR ENTRY ARE PROJECTED TO GROW FASTER ########################
@@ -75,66 +153,140 @@ work_experience1012 <- read.csv("work_experience1012.csv")
 work_experience1012$X <- NULL
 work_experience1012$year <- as.factor(work_experience1012$year)
 
-str(edu_level1014)
-str(job_training1012)
-str(work_experience1012)
+#str(edu_level1014)
+#str(job_training1012)
+#str(work_experience1012)
 
 
 ```
 
-### EDUCATION by detailed occupations
+
+# by college level
 ```{r}
 
+edu_summary <- edu_occ_summary %>%
+  group_by(year, edu, year) %>%
+  summarize(sum=sum(sum, na.rm=T))
 
-ggplot(edu1015long, aes(x=year, y=degrees, fill=degrees))+
-  geom_bar(width = 1, stat = "identity")
-
-
-total <- edu1015long[edu1015long$code == "00-0000",]
-ggplot(total) +
-  geom_point(aes(x=degrees,y=number, color=year))
-
-#total14 <- total[total$year == "2014",]
-
-ggplot(total, aes(x=year, y=number, fill=degrees))+
-geom_bar(width = 1, stat = "identity")
-
-ggplot(total, aes(x=year, y=number, group=degrees, color =degrees)) +
-geom_line() +
-     geom_point() 
-
-ggplot(total, aes(x=year, y=number, fill=degrees))+
-geom_bar(width = 1, stat = "identity") + coord_polar("y", start=0)
-
-
-ggplot(total, aes(x=year, y=number, fill=degrees)) + 
-  geom_bar(stat="identity")
+ggplot(edu_summary , 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total by edu",
+           x = "Year",
+           y = "total sum")
 
 
 ```
 
-#### chief executives
+
+
+# Manager level and non-manager 
 
 ```{r}
 
+edu_managers <- edu1015long[grep('managers', edu1015long$employment), ]
 
-chief_executives <- edu1015long[edu1015long$code == "11-1011",]
+#546
+edu_managers <- edu1015long %>%
+  filter(str_detect(employment, "manager"))
 
-ggplot(chief_executives, aes(x=year, y=number, fill=degrees))+
-geom_bar(width = 1, stat = "identity")
+#16,695
+edu_nonmanagers <- edu1015long %>%
+  filter(!str_detect(employment, "manager"))
 
-ggplot(chief_executives, aes(x=year, y=number, group=degrees, color =degrees)) +
-geom_line() +
-     geom_point() 
+#234
+edu_manager_summary <- edu_managers %>%
+  group_by(year, edu, code) %>%
+  summarize(sum=sum(number, na.rm=T))
 
-ggplot(chief_executives, aes(x=year, y=number, fill=degrees))+
-geom_bar(width = 1, stat = "identity") + coord_polar("y", start=0)
+check1 <- edu_manager_summary[edu_manager_summary$code == "2648679",]
+
+edu_manager_summary1 <- edu_managers %>%
+  group_by(year, edu, number) %>%
+  summarize(sum=sum(number, na.rm=T))
 
 
-ggplot(chief_executives, aes(x=year, y=number, fill=degrees)) + 
-  geom_bar(stat="identity")
+ggplot(check1, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total",
+           x = "Year",
+           y = "Percentage")
+
+
 
 ```
+
+
+##### different occupations
+
+```{r}
+check1 <- edu_occ_summary[edu_occ_summary$code == "00-0000",]
+
+ggplot(check1, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total",
+           x = "Year",
+           y = "Percentage")
+
+
+check1 <- edu_occ_summary[edu_occ_summary$code == "11-1021",]
+
+ggplot(check1, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_line() +
+      geom_point() +
+      labs(title = "General and operations managers",
+           x = "Year",
+           y = "Percentage")
+
+
+check1 <- edu_occ_summary[edu_occ_summary$code == "2605581",]
+
+ggplot(check1, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_line() +
+      geom_point() +
+      labs(title = "Education administrators, postsecondary",
+           x = "Year",
+           y = "Percentage")
+
+
+check1 <- edu_occ_summary[edu_occ_summary$code == "2619460",]
+
+ggplot(check1, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_line() +
+      geom_point() +
+      labs(title = "Gaming managers",
+           x = "Year",
+           y = "Percentage")
+
+
+check1 <- edu_occ_summary[edu_occ_summary$code == "11-1021",]
+
+ggplot(check1, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_line() +
+      geom_point() +
+      labs(title = "occupation",
+           x = "Year",
+           y = "Percentage")
+
+
+
+```
+
+
+
+
+
+
+
 
 
 
@@ -168,6 +320,10 @@ this is more of reference/ code book.
 
 
 ```
+
+
+
+
 
 
 
