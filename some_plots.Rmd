@@ -1,0 +1,418 @@
+---
+title: "some plots"
+author: "Shangjun Jiang"
+date: "11/7/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+require(MASS)
+library(hexbin)
+library(corrplot)
+library(car)
+library(ggplot2)
+require(methods)
+require("leaps")
+library(tidyr)
+library(reshape2)
+library(ridge)
+require(lars)
+library(descr)
+library(stringr)
+library(readr)
+library(readxl)
+library(tidyverse)
+#library(plyr)
+library(dplyr)
+
+
+setwd("~/Desktop/jenny-jiang")
+
+```
+
+
+```{r}
+########################  EDUCATION by detailed occupations ########################  
+### load data
+emp_edu_1015<- read.csv("clean_data/emp_edu_1015.csv")
+emp_edu_1015$X <- NULL
+emp_edu_1015$year <- as.factor(emp_edu_1015$year)
+
+### wide to long format 
+melt1015 <- melt(emp_edu_1015, 
+     measure.vars = c("less.hs", "high.school", "associate", "some.college..no.degree", "bachelor", "master", "doctor.professional"), 
+     variable.name = "degrees", 
+     value.name = "number")
+
+melt1015$edu <- melt1015$degrees
+melt1015$year <- as.factor(melt1015$year)
+
+#### aggregate education data 
+## divide educations by three levels
+
+# college +
+levels(melt1015$edu)[levels(melt1015$edu)=="bachelor"] <- "college+"
+levels(melt1015$edu)[levels(melt1015$edu)=="doctor.professional"] <- "college+"
+levels(melt1015$edu)[levels(melt1015$edu)=="master"] <- "college+"
+
+# hs - college
+levels(melt1015$edu)[levels(melt1015$edu)=="some.college..no.degree"] <- "hs-college"
+levels(melt1015$edu)[levels(melt1015$edu)=="associate"] <- "hs-college"
+
+# hs -
+levels(melt1015$edu)[levels(melt1015$edu)=="high.school"] <- "hs-"
+levels(melt1015$edu)[levels(melt1015$edu)=="less.hs"] <- "hs-"
+
+head(melt1015)
+```
+
+### overview of the changes in 3 points
+
+```{r}
+
+#4830 obs 9 variables
+#str(melt1015)
+
+total1015 <- melt1015
+
+sum1015 <- total1015[total1015$code2 == "00-000",]
+
+
+## delete the total number
+melt1015 <- melt1015[melt1015$code2 != "00-000",]
+
+total_summary <- melt1015 %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(number, na.rm=T))
+
+
+ggplot(total_summary, 
+           aes(x=year, y=sum, group=edu, color=edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total by edu",
+           x = "Year",
+           y = "total sum")
+
+
+```
+
+
+
+```{r}
+
+
+
+
+########################  add up number  ######################## 
+
+
+#2070 obs, 4 variables
+edu_occ_summary <- melt1015 %>%
+  group_by(year, edu, employment, code) %>%
+  summarize(sum=sum(number, na.rm=T))
+
+
+########################  aggregate occupation data ########################  
+
+
+####### computer and math occupations  15
+CS_related <- edu_occ_summary[grepl("15-", edu_occ_summary$code),]
+
+
+CS_related_summary <- CS_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(CS_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in CS-related",
+           x = "Year",
+           y = "total number")
+
+####### business and financial occupations   13
+biz_related <- edu_occ_summary[grepl("13-", edu_occ_summary$code),]
+
+
+biz_related_summary <- biz_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(biz_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in Business-related",
+           x = "Year",
+           y = "total number")
+
+
+####### healthcare occupations  29/31
+health1_related <- edu_occ_summary[grepl("29-", edu_occ_summary$code),] 
+health2_related <- edu_occ_summary[grepl("31-", edu_occ_summary$code),] 
+
+health_related <- full_join(health1_related, health2_related) 
+
+
+health_related_summary <- health_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(health_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in health-related",
+           x = "Year",
+           y = "total number")
+
+####### sales occupations  41
+sales_related <- edu_occ_summary[grepl("41-", edu_occ_summary$code),] 
+
+sales_related_summary <- sales_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(sales_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in sales-related",
+           x = "Year",
+           y = "total number")
+
+
+########  life, physical and social science occupations 19
+
+social_related <- edu_occ_summary[grepl("19-", edu_occ_summary$code),]
+
+
+social_related_summary <- social_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(social_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in social science-related",
+           x = "Year",
+           y = "total number")
+
+
+
+####### education, training, and library occupations  25
+edu_related <- edu_occ_summary[grepl("25-", edu_occ_summary$code),]
+
+
+edu_related_summary <- edu_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(edu_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in Education-related",
+           x = "Year",
+           y = "total number")
+
+
+####### service occupations  35/37
+service1_related <- edu_occ_summary[grepl("35-", edu_occ_summary$code),] 
+service2_related <- edu_occ_summary[grepl("37-", edu_occ_summary$code),] 
+
+service_related <- full_join(service1_related, service2_related) 
+
+
+service_related_summary <- service_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(service_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in service-related",
+           x = "Year",
+           y = "total number")
+
+
+
+```
+
+
+
+
+```{r}
+####### architecture and engineering occupations  15
+architecture_related <- edu_occ_summary[grepl("17-", edu_occ_summary$code),]
+
+
+architecture_related_summary <- architecture_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(architecture_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in architecture-related",
+           x = "Year",
+           y = "total number")
+
+
+####### office occupations  43
+office_related <- edu_occ_summary[grepl("43-", edu_occ_summary$code),] 
+
+
+office_related_summary <- office_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(office_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in office-related",
+           x = "Year",
+           y = "total number")
+
+
+####### community and social service occupations  21
+community_related <- edu_occ_summary[grepl("21-", edu_occ_summary$code),]
+
+
+community_related_summary <- community_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(community_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in community-related",
+           x = "Year",
+           y = "total number")
+
+
+
+####### arts, media occupations  27
+art_related <- edu_occ_summary[grepl("27-", edu_occ_summary$code),]
+
+
+art_related_summary <- art_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(art_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in Arts-related",
+           x = "Year",
+           y = "total number")
+
+
+
+###### legal 23
+legal_related <- edu_occ_summary[grepl("23-", edu_occ_summary$code),] 
+
+
+legal_related_summary <- legal_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(legal_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in legal-related",
+           x = "Year",
+           y = "total number")
+
+
+####### protective service  33
+protective_related <- edu_occ_summary[grepl("33-", edu_occ_summary$code),]
+
+
+protective_related_summary <- protective_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(protective_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in protective-related",
+           x = "Year",
+           y = "total number")
+
+
+####### personal care and service   39
+personal_care_related <- edu_occ_summary[grepl("39-", edu_occ_summary$code),]
+
+personal_care_related_summary <- personal_care_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(personal_care_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in personal_care-related",
+           x = "Year",
+           y = "total number")
+
+
+
+####### farming, fishing and forestry 45
+farming_related <- edu_occ_summary[grepl("45-", edu_occ_summary$code),]
+
+farming_related_summary <- farming_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(farming_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in farming-related",
+           x = "Year",
+           y = "total number")
+
+
+
+####### transportation, production occupations   47/49/51/53
+production1_related <- edu_occ_summary[grepl("53-", edu_occ_summary$code),] 
+production2_related <- edu_occ_summary[grepl("51-", edu_occ_summary$code),] 
+production3_related <- edu_occ_summary[grepl("47-", edu_occ_summary$code),] 
+production4_related <- edu_occ_summary[grepl("49-", edu_occ_summary$code),] 
+
+production12_related <- full_join(production1_related, production2_related) 
+production34_related <- full_join(production3_related, production4_related) 
+production_related <- full_join(production34_related, production12_related) 
+
+production_related_summary <- production_related %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(sum, na.rm=T))
+
+ggplot(production_related_summary, 
+           aes(x=year, y=sum, group=edu, color =edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total number in production-related",
+           x = "Year",
+           y = "total number")
+
+
+
+```
+
+
+
+
