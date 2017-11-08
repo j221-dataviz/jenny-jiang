@@ -20,9 +20,10 @@ There are 4 folders.
 
 There are 2 `RMarkdown + html` files. The first one is the cleaning and joining dataset together.
 1. `data_clean+EDA.Rmd` 
-This one contains cleaning the educationa attainment dataset and join the total number of workers by detailed occupations. Therefore, I can get the number, intead of percentage. In this way, I will be able to compare the absolute number. 
+This one contains cleaning the education attainment dataset and join the total number of workers by detailed occupations. Therefore, I can get the number, instead of percentage. In this way, I will be able to compare the absolute number. 
 2. `some_plots.Rmd`
-This one loads the cleaned dataset and inlcudes some plots. I only ploted `EDUCATION by detailed occupations` and I aggregated the dataset by different occupations and different education levels. 
+This one loads the cleaned dataset and includes some plots. I only plotted `EDUCATION by detailed occupations` and I aggregated the dataset by different occupations and different education levels. 
+
 
 There are also 2 MarkDown files that detail my update report.
 1. `update report oct23-27.md` this one is the first update report.
