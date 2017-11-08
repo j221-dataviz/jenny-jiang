@@ -12,10 +12,11 @@ I am mainly using this dataset [Educational Attainment for Workers 25 years and 
 
 ### HOW to read this repository
 
-There are 3 folders.
+There are 4 folders.
 1. `eda` This one contains some EDA files I did, may not relevant to my final analysis.
 2. `raw_data` this one contains the dataset I got from the BLS
 3. `clean_data` this one contains cleaned dataset.
+4. `image` this one contains some plots/screenshots that I use for the update report.
 
 There are 2 `RMarkdown + html` files. The first one is the cleaning and joining dataset together.
 1. `data_clean+EDA.Rmd` 
