@@ -27,7 +27,7 @@ This one loads the cleaned dataset and includes some plots. I only plotted `EDUC
 
 There are also 2 MarkDown files that detail my update report.
 1. `update report oct23-27.md` this one is the first update report.
-2. `update 2 Nov 10.md` This one is the official update report which will be graded. PLEASE TAKE A LOOK AT THIS ONE for grading.
+2. `Update2 Nov 10.md` This one is the official update report which will be graded. PLEASE TAKE A LOOK AT THIS ONE for grading.
 
 
 
