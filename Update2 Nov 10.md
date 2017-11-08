@@ -24,7 +24,7 @@ Then I loaded dataset [Occupation data](https://www.bls.gov/cps/demographics.htm
 
 The reason behind using these two datasets is that I can get total number of people in occupation by education. The existing dataset only contains percentage, which will be difficult for over-time comparison.
 
-#####B. Joining multiple Dataset
+##### B. Joining multiple Dataset
 
 After getting these two datasets, I joined these two datasets together. I joined them by their employment names, omit the NA values. Then, I left with 230 observations.
 
