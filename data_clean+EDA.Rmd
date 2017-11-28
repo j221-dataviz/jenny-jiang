@@ -44,9 +44,9 @@ edu1415 <- read_excel(path = "raw_data/educational attainment by detailed occupa
 ## add year to the column
 
 ```{r}
-edu1415$year <- "2014"
-edu1213$year <- "2012"
-edu1011$year <- "2010"
+edu1415$year <- "2015"
+edu1213$year <- "2013"
+edu1011$year <- "2011"
 edu09$year <- "2009"
 edu08$year <- "2008"
 
@@ -72,7 +72,30 @@ edu1015_edit <- edu1015 %>%
 
 #write.csv(edu1015,"edu1015.csv")
 
+
+###################### select by industry ########################
+
+#1011
+occ_edu1011 <- edu1011[!grepl("-", edu1011$code),]
+
+##1213
+occ_edu1213 <- edu1213[!grepl("-", edu1213$code),]
+
+## 1415
+occ_edu1415 <- edu1415[!grepl("-", edu1415$code),]
+
+
+
+join1011 <- merge(x = occ_level11, y = occ_edu1011, by = "employment", all = TRUE)
+
+### 288 obs
+check1011 <- na.omit(join1011)
+
+
+
+
 ```
+
 
 
 
@@ -81,21 +104,21 @@ edu1015_edit <- edu1015 %>%
 ```{r}
 
 
-#1011
-occ_edu1011 <- edu1011[grepl("-", edu1011$code),]
+
+
 occ_edu1011$code2 <- substr(occ_edu1011$code, start=1, stop=6)
 
 occ_edu1011 <- occ_edu1011[!duplicated(occ_edu1011$code2),]
 
 
 ##1213
-occ_edu1213 <- edu1213[grepl("-", edu1213$code),]
+occ_edu1213 <- edu1213[!grepl("-", edu1213$code),]
 occ_edu1213$code2 <- substr(occ_edu1213$code, start=1, stop=6)
 
 occ_edu1213 <- occ_edu1213[!duplicated(occ_edu1213$code2),]
 
 ## 1415
-occ_edu1415 <- edu1415[grepl("-", edu1415$code),]
+occ_edu1415 <- edu1415[!grepl("-", edu1415$code),]
 occ_edu1415$code2 <- substr(occ_edu1415$code, start=1, stop=6)
 
 occ_edu1415 <- occ_edu1415[!duplicated(occ_edu1415$code2),]
@@ -105,23 +128,23 @@ occ_edu1415 <- occ_edu1415[!duplicated(occ_edu1415$code2),]
 
 
 ##2011
-occ_level11 <- read_excel(path = "2011.xlsx", sheet = 1)
+occ_level11 <- read_excel(path = "raw_data/2011.xlsx", sheet = 1)
 colnames(occ_level11) <- c("employment", "Total", "16-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65+", "median")
 
 occ_level11[,3:9] <- NULL
 
-join1011 <- merge(x = occ_level11, y = occ_edu1011, by = "employment", all = TRUE)
+join1011 <- merge(x = occ_level11, y = occ_edu1011, by = "employment", all.y = TRUE)
 
-### 288 obs
+### 25 obs
 check1011 <- na.omit(join1011)
 
 
 ## 2012-13
-occ_level12 <- read_excel(path = "2012.xlsx", sheet = 1)
+occ_level12 <- read_excel(path = "raw_data/2012.xlsx", sheet = 1)
 colnames(occ_level12) <- c("employment", "Total", "16-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65+", "median")
 occ_level12 <- na.omit(occ_level12)
 
-occ_level13 <- read_excel(path = "2013.xlsx", sheet = 1)
+occ_level13 <- read_excel(path = "raw_data/2013.xlsx", sheet = 1)
 colnames(occ_level13) <- c("employment", "Total", "16-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65+", "median")
 occ_level13 <- na.omit(occ_level13)
 
@@ -132,18 +155,18 @@ occ_level1213[,3:9] <- NULL
 
 join1213 <- merge(x = occ_level1213, y = occ_edu1213, by = "employment", all = TRUE)
 
-### 230 obs
+### 22 obs
 check1213 <- na.omit(join1213)
 
 
 
 ## 2014-15
 
-occ_level14 <- read_excel(path = "2014.xlsx", sheet = 1)
+occ_level14 <- read_excel(path = "raw_data/2014.xlsx", sheet = 1)
 colnames(occ_level14) <- c("employment", "Total", "16-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65+", "median")
 occ_level14 <- na.omit(occ_level14)
 
-occ_level15 <- read_excel(path = "2015.xlsx", sheet = 1)
+occ_level15 <- read_excel(path = "raw_data/2015.xlsx", sheet = 1)
 colnames(occ_level15) <- c("employment", "Total", "16-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65+", "median")
 occ_level15 <- na.omit(occ_level15)
 
@@ -154,19 +177,21 @@ occ_level1415[,3:9] <- NULL
 
 join1415 <- merge(x = occ_level1415, y = occ_edu1415, by = "employment", all = TRUE)
 
-### 230 obs
+### 22 obs
 check1415 <- na.omit(join1415)
 
 
 ### inner join, make sure everything has 230 obs. delete the not matching ones.
 
-check1013 <- merge(x = check1213, y = check1011, by = "code2", all.x = TRUE)
-check1013[,2:13] <- NULL
+check1013 <- merge(x = check1213, y = check1011, by = "code", all.x = TRUE)
+check1013[,2:12] <- NULL
 
-check1013<- check1013[,c(2:13,1)]
+check1013<- check1013[,c(2:4,1,5:12)]
 
 colnames(check1013) <- colnames(check1011)
-check1011 <- check1013
+check1011 <- check1013  ## 22 obs
+
+
 
 ```
 
@@ -221,6 +246,137 @@ number1015 <- full_join(number1011,number1215)
 write.csv(number1015 ,"emp_edu_1015.csv")
 
 ```
+
+
+
+
+```{r}
+## LOAD SALARY DATASET
+
+### 2011
+salary11 <- read_excel(path = "raw_data/2011salary.xlsx", sheet = 1)
+
+colnames(salary11) <- c("employment", "total_median", "total_number", "men_median", "men_number", "women_median", "women_number")
+salary11 <- na.omit(salary11)
+join1011 <- merge(x = salary11, y = number1011, by = "employment", all.y = TRUE)
+join1011_na <- na.omit(join1011)
+
+### 2012
+salary12 <- read_excel(path = "raw_data/2012salary.xlsx", sheet = 1)
+
+colnames(salary12) <- c("employment", "total_median", "total_number", "men_median", "men_number", "women_median", "women_number")
+
+salary12 <- na.omit(salary12)
+
+
+### 2013
+
+salary13 <- read_excel(path = "raw_data/2013salary.xlsx", sheet = 1)
+
+colnames(salary13) <- c("employment", "total_median", "total_number", "men_median", "men_number", "women_median", "women_number")
+salary13 <- na.omit(salary13)
+
+
+salary1213 <- salary13
+
+salary11 <- na.omit(salary11)
+join1213 <- merge(x = salary1213, y = number1213, by = "employment", all.y = TRUE)
+join1213_na <- na.omit(join1213)
+
+
+### 2014
+
+salary14 <- read_excel(path = "raw_data/2014salary.xlsx", sheet = 1)
+
+colnames(salary14) <- c("employment", "total_median", "total_number", "men_median", "men_number", "women_median", "women_number")
+
+salary14 <- na.omit(salary14)
+
+
+### 2015
+
+salary15 <- read_excel(path = "raw_data/2015salary.xlsx", sheet = 1)
+
+colnames(salary15) <- c("employment", "total_median", "total_number", "men_median", "men_number", "women_median", "women_number")
+
+salary15 <- na.omit(salary15)
+
+salary1415 <- salary15
+salary1415[2] <- (salary14[2]  + salary15[2])/2
+salary1415[3] <- (salary14[3]  + salary15[3])/2
+salary1415[4] <- (salary14[4]  + salary15[4])/2
+salary1415[5] <- (salary14[5]  + salary15[5])/2
+salary1415[6] <- (salary14[6]  + salary15[6])/2
+salary1415[7] <- (salary14[7]  + salary15[7])/2
+
+join1415 <- merge(x = salary1415, y = number1415, by = "employment", all.y = TRUE)
+join1415_na <- na.omit(join1415)
+
+
+
+### join dataset together
+join1215 <- full_join(join1213, join1415)
+join1015 <- full_join(join1011, join1215)
+
+
+write.csv(join1015 ,"emp_edu_salary_1015.csv")
+
+
+#write.csv(join1415_na,"join1415.csv")
+#write.csv(join1213_na,"join1213.csv")
+#write.csv(join1011_na,"join1011.csv")
+
+join1011 <- read_csv("clean_data/join1011.csv")
+join1213$X1 <- NULL
+
+join1213 <- read_csv("clean_data/join1213.csv")
+join1213$X1 <- NULL
+
+join1415 <- read_csv("clean_data/join1415.csv")
+join1415$X1 <- NULL 
+
+
+
+```
+
+
+
+```{r}
+
+#number and salary join together
+
+number1011
+
+
+number1213
+
+
+number1415
+
+
+
+```
+
+
+```{r}
+
+
+
+#### 2010-2011
+
+
+salary_number1011 <- join1011_na
+salary_number1011[5] <- number1011[2] * number1011[5] * 0.01
+number1011[6] <- number1011[2] * number1011[6] * 0.01
+number1011[7] <- number1011[2] * number1011[7] * 0.01
+number1011[8] <- number1011[2] * number1011[8] * 0.01
+number1011[9] <- number1011[2] * number1011[9] * 0.01
+number1011[10] <- number1011[2] * number1011[10] * 0.01
+number1011[11] <- number1011[2] * number1011[11] * 0.01
+## format to 2 digits
+number1011[5:11] <- format(round(number1011[5:11], 2), nsmall = 2)
+```
+
 
 
 

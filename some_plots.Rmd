@@ -28,9 +28,809 @@ library(tidyverse)
 library(dplyr)
 
 
+library(htmlwidgets)
+library(ggiraph)
+
+library(highcharter)
+library(RColorBrewer)
+library(flexdashboard)
+library(leaflet)
+library(scatterD3)
+library("billboarder")
+library(rbokeh)
+library(metricsgraphics)
+
 setwd("~/Desktop/jenny-jiang")
 
 ```
+
+
+
+```{r}
+### load data
+emp_edu_salary_1015 <- read.csv("clean_data/emp_edu_salary_1015.csv")
+emp_edu_salary_1015$X <- NULL
+
+
+#colnames(emp_edu_salary_1015)[11:17] <- c("less hs", "high school", "some college, no degree", "associate", "bachelor", "master", "doctor/professional")
+
+
+### wide to long format 
+melt1015 <- melt(emp_edu_salary_1015, 
+     measure.vars = c("less.hs", "high.school", "associate", "some.college..no.degree", "bachelor", "master", "doctor.professional"), 
+     variable.name = "degrees", 
+     value.name = "number")
+
+melt1015$edu <- melt1015$degrees
+
+
+# college +
+levels(melt1015$edu)[levels(melt1015$edu)=="bachelor"] <- "college+"
+levels(melt1015$edu)[levels(melt1015$edu)=="doctor.professional"] <- "college+"
+levels(melt1015$edu)[levels(melt1015$edu)=="master"] <- "college+"
+
+# hs - college
+levels(melt1015$edu)[levels(melt1015$edu)=="some.college..no.degree"] <- "hs-college"
+levels(melt1015$edu)[levels(melt1015$edu)=="associate"] <- "hs-college"
+
+# hs -
+levels(melt1015$edu)[levels(melt1015$edu)=="high.school"] <- "hs-"
+levels(melt1015$edu)[levels(melt1015$edu)=="less.hs"] <- "hs-"
+
+head(melt1015)
+
+melt1015$total_number <- NULL
+melt1015$men_number <- NULL
+melt1015$women_number <- NULL
+
+
+melt1015$year <- as.factor(melt1015$year)
+melt1015$code <- as.factor(melt1015$code)
+
+
+colnames(melt1015)[colnames(melt1015) == "median"] <- "median_age"
+colnames(melt1015)[colnames(melt1015) == "total_median"] <- "median_salary"
+
+
+
+```
+
+
+
+```{r}
+mtcars$names <- rownames(mtcars)
+scatterD3(data = mtcars, x = wt, y = mpg, lab = names,
+          col_var = cyl, symbol_var = am,
+          xlab = "Weight", ylab = "Mpg", col_lab = "Cylinders",
+          symbol_lab = "Manual transmission")
+
+melt1015$names <- rownames(melt1015)
+
+
+          
+scatterD3(data = melt1015, x = year, y = number, 
+          col_var = degrees, symbol_var = edu,
+          size_var = median_salary, 
+          size_range = c(10,1000), point_opacity = 0.7)
+
+
+## salary vs total number 
+scatterD3(data = melt1015, x = number, y = median_salary,
+          col_var = degrees, symbol_var = employment)
+          
+# save as a web page
+saveWidget(admin_chart, "admin_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+```
+
+
+
+
+```{r}
+food_stamps_column <- ggplot(total_summary, aes(x = edu, y = sum)) + 
+  xlab("Year") +
+  ylab("total number of employees") +
+  theme_minimal(base_size = 14, base_family = "Georgia") + 
+  geom_bar_interactive(stat = "identity", 
+         color = "#888888", 
+         fill = "#CCCCCC", 
+         alpha = 0.5,
+         aes(tooltip = paste0("number: ",sum),
+             data_id = edu)) 
+
+# make interactive version of the chart
+food_stamps_column_interactive <- ggiraph(code = print(food_stamps_column), 
+                                   height_svg = 4,
+                                   hover_css = "fill-opacity:1;stroke:red",
+                                   tooltip_extra_css = "background-color:#f0f0f0;color:black;padding:5px")
+
+food_stamps_column_interactive
+
+```
+
+
+```{r}
+
+computer_info %>%
+  mjs_plot(x=degrees, y=Total, width=600, height=500) %>%
+  mjs_point(color_accessor=edu,
+            x_rug=TRUE, y_rug=TRUE,
+            color_type="category",
+            color_range=brewer.pal(n=11, name="RdBu")[c(1, 5, 11)],
+            least_squares=TRUE)
+
+
+
+billboarder() %>% 
+  bb_scatterplot(data = melt1015) %>% 
+  bb_linechart(data = data.frame(lowess(melt1015)), x = "median_salary") %>% 
+  bb_data(types = list(dist = "scatter", y = "Total"))
+
+```
+
+
+
+### different occupations 22 
+```{r}
+computer_info <- melt1015[melt1015$employment == "Computer and information systems managers",]
+
+total_summary2 <- melt1015 %>%
+  group_by(year, edu,employment) %>%
+  summarize(sum=sum(number, na.rm=T))
+
+
+# define a ColorBrewer palette
+cols <- brewer.pal(7, "Set1")
+
+
+
+
+
+
+
+### Administrative services managers
+
+admin_info <- total_summary2[total_summary2$employment == "Administrative services managers",]
+
+
+admin_chart <- hchart(admin_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+   hc_title(text = "Administrative services managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+admin_chart
+
+# save as a web page
+saveWidget(admin_chart, "admin_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+
+### "Advertising and promotions managers"
+
+ads_info <- total_summary2[total_summary2$employment == "Advertising and promotions managers",]
+
+ads_chart <- hchart(ads_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Advertising and promotions managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle"))) %>% 
+  hc_tooltip(crosshairs = TRUE, backgroundColor = "#FCFFC5",
+             shared = TRUE, borderWidth = 5) 
+
+ads_chart
+
+# save as a web page
+saveWidget(ads_chart, "ads_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+#### Architectural and engineering managers
+
+
+architect_info <- total_summary2[total_summary2$employment == "Architectural and engineering managers",]
+
+architect_chart <- hchart(architect_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Architectural and engineering managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle"))) %>% 
+  hc_tooltip(crosshairs = TRUE, backgroundColor = "#FCFFC5",
+             shared = TRUE, borderWidth = 5) 
+
+architect_chart
+
+# save as a web page
+saveWidget(architect_chart, "architect_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+### Compensation and benefits managers
+
+
+compensation_info <- total_summary2[total_summary2$employment == "Compensation and benefits managers",]
+
+compensation_chart <- hchart(compensation_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Compensation and benefits managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle"))) %>% 
+  hc_tooltip(crosshairs = TRUE, backgroundColor = "#FCFFC5",
+             shared = TRUE, borderWidth = 5) 
+
+compensation_chart
+
+# save as a web page
+saveWidget(compensation_chart, "compensation_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+
+### Computer and information systems managers
+
+computer_info <- total_summary2[total_summary2$employment == "Computer and information systems managers",]
+
+computer_chart <- hchart(computer_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Computer and information systems managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+computer_chart
+
+# save as a web page
+saveWidget(computer_chart, "computer_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+### Construction managers
+
+construction_info <- total_summary2[total_summary2$employment == "Construction managers",]
+
+construction_chart <- hchart(construction_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Construction managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+construction_chart
+
+# save as a web page
+saveWidget(construction_chart, "construction_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Emergency management directors
+
+emergency_info <- total_summary2[total_summary2$employment == "Emergency management directors",]
+
+emergency_chart <- hchart(emergency_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Emergency management directors",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+emergency_chart
+
+# save as a web page
+saveWidget(emergency_chart, "emergency_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+### Farmers, ranchers, and other agricultural managers
+
+
+farmers_info <- total_summary2[total_summary2$employment == "Farmers, ranchers, and other agricultural managers",]
+
+farmers_chart <- hchart(farmers_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Farmers, ranchers, and other agricultural managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+farmers_chart
+
+# save as a web page
+saveWidget(farmers_chart, "farmers_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Financial managers
+
+
+financial_info <- total_summary2[total_summary2$employment == "Financial managers",]
+
+financial_chart <- hchart(financial_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Financial managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+financial_chart
+
+# save as a web page
+saveWidget(financial_chart, "financial_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Food service managers
+
+food_info <- total_summary2[total_summary2$employment == "Food service managers",]
+
+food_chart <- hchart(food_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Food service managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+food_chart
+
+# save as a web page
+saveWidget(food_chart, "food_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Gaming managers
+
+game_info <- total_summary2[total_summary2$employment == "Gaming managers",]
+
+game_chart <- hchart(game_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Gaming managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+game_chart
+
+# save as a web page
+saveWidget(game_chart, "game_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Human resources managers
+
+HR_info <- total_summary2[total_summary2$employment == "Human resources managers",]
+
+HR_chart <- hchart(HR_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Human resources managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+HR_chart
+
+# save as a web page
+saveWidget(HR_chart, "HR_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Industrial production managers
+
+industry_info <- total_summary2[total_summary2$employment == "Industrial production managers",]
+
+industry_chart <- hchart(industry_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Industrial production managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+industry_chart
+
+# save as a web page
+saveWidget(industry_chart, "industry_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Lodging managers
+
+
+lodge_info <- total_summary2[total_summary2$employment == "Lodging managers",]
+
+lodge_chart <- hchart(lodge_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Lodging managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+lodge_chart
+
+# save as a web page
+saveWidget(lodge_chart, "lodge_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Medical and health services managers
+
+medical_info <- total_summary2[total_summary2$employment == "Medical and health services managers",]
+
+medical_chart <- hchart(medical_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Medical and health services managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+medical_chart
+
+# save as a web page
+saveWidget(medical_chart, "medical_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Natural sciences managers
+
+natural_info <- total_summary2[total_summary2$employment == "Natural sciences managers",]
+
+natural_chart <- hchart(natural_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Natural sciences managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+natural_chart
+
+# save as a web page
+saveWidget(natural_chart, "natural_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+
+### Property, real estate, and community association managers
+
+
+property_info <- total_summary2[total_summary2$employment == "Property, real estate, and community association managers",]
+
+property_chart <- hchart(property_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Property, real estate, and community association managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+property_chart
+
+# save as a web page
+saveWidget(property_chart, "property_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Public relations and fundraising managers
+
+PR_info <- total_summary2[total_summary2$employment == "Public relations and fundraising managers",]
+
+PR_chart <- hchart(PR_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Public relations and fundraising managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+PR_chart
+
+# save as a web page
+saveWidget(PR_chart, "PR_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Purchasing managers
+
+purchase_info <- total_summary2[total_summary2$employment == "Purchasing managers",]
+
+purchase_chart <- hchart(purchase_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Purchasing managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+purchase_chart
+
+# save as a web page
+saveWidget(purchase_chart, "purchase_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Social and community service managers
+
+social_info <- total_summary2[total_summary2$employment == "Social and community service managers",]
+
+social_chart <- hchart(social_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Social and community service managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+social_chart
+
+# save as a web page
+saveWidget(social_chart, "social_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+### Training and development managers
+
+training_info <- total_summary2[total_summary2$employment == "Training and development managers",]
+
+training_chart <- hchart(training_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Training and development managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+training_chart
+
+# save as a web page
+saveWidget(training_chart, "training_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+### Transportation, storage, and distribution managers
+
+transportation_info <- total_summary2[total_summary2$employment == "Transportation, storage, and distribution managers",]
+
+transportation_chart <- hchart(transportation_info, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_title(text = "Transportation, storage, and distribution managers",
+           margin = 20, align = "center",
+           style = list(useHTML = TRUE)) %>% 
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+transportation_chart
+
+# save as a web page
+saveWidget(transportation_chart, "transportation_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+
+
+```
+
+
+
+```{r}
+ggplot(melt1015) +
+  geom_point(aes(x=median_salary, y=Total))
+```
+
+
+
+```{r}
+
+tooltips <- paste("<strong>median salary: </strong>", melt1015$median_salary,"<br /> ", 
+                  "<strong>total number: </strong>", melt1015$Total,"<br /> ",
+                  "<strong>year: </strong>", melt1015$year,"<br /> ",
+                  "<strong>occupation: </strong>", melt1015$employment,"<br /> ")
+scatterD3(melt1015, x=median_salary, y=Total,
+          col_var = year, tooltip_text = tooltips,
+          size_var = median_salary, 
+          size_range = c(5,1130), point_opacity = 0.7)
+
+
+
+#                  "<strong>degrees: </strong>", melt1015$degrees,"<br /> ",
+
+tooltips <- paste("<strong>median salary: </strong>", melt1015$median_salary,"<br /> ", 
+                  "<strong>total number: </strong>", melt1015$Total,"<br /> ",
+                  "<strong>year: </strong>", melt1015$year,"<br /> ",
+                  "<strong>occupation: </strong>", melt1015$employment,"<br /> ")
+number_salary <- scatterD3(melt1015, x=median_salary, y=Total,
+          col_var = year, tooltip_text = tooltips,
+          size_var = Total, 
+          size_range = c(5,1230), point_opacity = 0.7)
+
+saveWidget(number_salary, "number_salary.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+range(melt1015$Total)
+
+
+
+
+```
+
+
+```{r}
+figure() %>%
+  ly_points(median_salary, Total, data = melt1015,
+    color = edu,
+    hover = list(median_salary, Total, employment))
+
+```
+
+
+
+
+
+
+
+```{r}
+
+#str(melt1015)
+
+table(melt1015$degrees)
+
+
+################### total number by three layers of education
+
+
+
+total_summary2 <- melt1015 %>%
+  group_by(year, edu) %>%
+  summarize(sum=sum(number, na.rm=T))
+
+# define a ColorBrewer palette
+cols <- brewer.pal(4, "Set1")
+
+# make chart
+edu_chart <- hchart(total_summary, "line", hcaes(x = year, y = sum, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+# plot chart
+print(edu_chart)
+
+# save as a web page
+saveWidget(edu_chart, "total_edu.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+################### total number by detailed education
+
+total_summary1 <- melt1015 %>%
+  group_by(year, degrees) %>%
+  summarize(sum=sum(number, na.rm=T))
+
+
+# define a ColorBrewer palette
+cols <- brewer.pal(7, "Set1")
+
+# make chart
+degrees_chart <- hchart(total_summary1, "line", hcaes(x = year, y = sum, group = degrees)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+# plot chart
+print(degrees_chart)
+
+# save as a web page
+saveWidget(degrees_chart, "total_degrees.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+```
+
+
+
+
+```{r}
+
+
+
+
+ggplot(total_summary, 
+           aes(x=year, y=sum, group=edu, color=edu)) +
+      geom_point() +
+      geom_line() +
+      labs(title = "total by edu",
+           x = "Year",
+           y = "total sum")
+
+# dot-and-line chart of
+food_stamps_chart <- ggplot(total_summary, aes(x = year, y = sum)) + 
+  xlab("Year") +
+  ylab("Total sum") +
+  theme_minimal(base_size = 14, base_family = "Georgia") + 
+  geom_line() +
+  geom_point_interactive(aes(tooltip = sum))
+
+print(food_stamps_chart)
+
+food_stamps_interactive <- ggiraph(code = print(food_stamps_chart), height_svg=4)
+
+print(food_stamps_interactive)
+
+```
+
 
 
 ```{r}
@@ -67,6 +867,11 @@ levels(melt1015$edu)[levels(melt1015$edu)=="less.hs"] <- "hs-"
 
 head(melt1015)
 ```
+
+
+
+
+
 
 ### overview of the changes in 3 points
 
@@ -383,7 +1188,8 @@ ggplot(farming_related_summary,
       geom_line() +
       labs(title = "total number in farming-related",
            x = "Year",
-           y = "total number")
+           y = "total number") +
+  scale_x_discrete(labels = c("2010-11","2012-13","2014-15"))
 
 
 
