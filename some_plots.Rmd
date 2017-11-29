@@ -115,11 +115,20 @@ scatterD3(data = melt1015, x = year, y = number,
 
 
 ## salary vs total number 
-scatterD3(data = melt1015, x = number, y = median_salary,
+degrees_employ <- scatterD3(data = melt1015, x = number, y = median_salary,
           col_var = degrees, symbol_var = employment)
+
+# save as a web page
+saveWidget(degrees_employ, "degrees_employ.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+## salary vs total number 
+edu_employ <- scatterD3(data = melt1015, x = number, y = median_salary,
+          col_var = edu, symbol_var = employment)
+
           
 # save as a web page
-saveWidget(admin_chart, "admin_chart.html", selfcontained = TRUE, libdir = NULL, background = "white")
+saveWidget(edu_employ, "edu_employ.html", selfcontained = TRUE, libdir = NULL, background = "white")
 
 
 
@@ -168,8 +177,42 @@ billboarder() %>%
   bb_linechart(data = data.frame(lowess(melt1015)), x = "median_salary") %>% 
   bb_data(types = list(dist = "scatter", y = "Total"))
 
+    cols <- brewer.pal(7, "Set1")
+    
+    
+    hchart(cleaned1, "line", hcaes(x = "year", y = "sum", group = "edu")) %>%
+      hc_colors(cols) %>%
+      hc_chart(style = list(fontFamily = "Georgia",
+                            fontWeight = "bold")) %>%
+      hc_title(text = input$question,
+               margin = 20, align = "center",
+               style = list(useHTML = TRUE)) %>% 
+      hc_xAxis(title = list(text="Year")) %>%
+      hc_yAxis(title = list(text="Total Number of Workers")) %>%
+      hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+    
+    
+    
 ```
 
+
+```{r}
+
+total_summary3 <- melt1015 %>%
+  group_by(year, employment) %>%
+  summarize(sum_salary=sum(median_salary, na.rm=T))
+
+
+year_1011 <- total_summary3[total_summary3$year == "2011",]
+year_1213 <- total_summary3[total_summary3$year == "2013",]
+year_1415 <- total_summary3[total_summary3$year == "2015",]
+
+ggplot(year_1011, aes(x=employment, y=sum_salary))+
+  geom_area()
+
+
+
+```
 
 
 ### different occupations 22 
@@ -180,13 +223,14 @@ total_summary2 <- melt1015 %>%
   group_by(year, edu,employment) %>%
   summarize(sum=sum(number, na.rm=T))
 
+write.csv(total_summary2, "summary1.csv")
+
 
 # define a ColorBrewer palette
 cols <- brewer.pal(7, "Set1")
 
 
-
-
+ 
 
 
 
