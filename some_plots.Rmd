@@ -310,12 +310,12 @@ median_salary <- highchart() %>%
   hc_title(text = "Median Salary for 22 occupations in 2010-2015") %>%
   hc_subtitle(text = "In percentage of tastiness and awesomeness") %>% 
   hc_add_series_labels_values(year_1415$job, year_1011$sum_salary, name = "2014-15",
-                              colorByPoint = TRUE, type = "column") %>% 
+                              colorByPoint = TRUE, type = "column", max = 8000) %>% 
   hc_add_series_labels_values(year_1213$job, year_1213$sum_salary, name = "2012-13",
-                              colorByPoint = TRUE, type = "column") %>% 
+                              colorByPoint = TRUE, type = "column", max = 8000) %>% 
   hc_add_series_labels_values(year_1011$job, year_1011$sum_salary, name = "2010-11",
-                              colorByPoint = TRUE, type = "column") %>% 
-  hc_yAxis(title = list(text = "percentage of tastiness"),
+                              colorByPoint = TRUE, type = "column", max = 8000) %>% 
+  hc_yAxis(title = list(text = "wages"),
            labels = list(format = "{value}")) %>% 
   hc_xAxis(categories = year_1011$job)
 
