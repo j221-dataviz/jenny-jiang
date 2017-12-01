@@ -1,199 +1,199 @@
-"","year","edu","employment","sum"
-"1","2011","hs-","Administrative services managers",24.32
-"2","2011","hs-","Advertising and promotions managers",5.83
-"3","2011","hs-","Architectural and engineering managers",3.39
-"4","2011","hs-","Compensation and benefits managers",1.91
-"5","2011","hs-","Computer and information systems managers",22.67
-"6","2011","hs-","Construction managers",311.13
-"7","2011","hs-","Emergency management directors",0.68
-"8","2011","hs-","Farmers, ranchers, and other agricultural managers",490.96
-"9","2011","hs-","Financial managers",127.31
-"10","2011","hs-","Food service managers",401.48
-"11","2011","hs-","Gaming managers",8.12
-"12","2011","hs-","Human resources managers",36.69
-"13","2011","hs-","Industrial production managers",62.68
-"14","2011","hs-","Lodging managers",34.78
-"15","2011","hs-","Medical and health services managers",55.54
-"16","2011","hs-","Natural sciences managers",0.41
-"17","2011","hs-","Property, real estate, and community association managers",144.4
-"18","2011","hs-","Public relations and fundraising managers",2.2
-"19","2011","hs-","Purchasing managers",26.92
-"20","2011","hs-","Social and community service managers",31.26
-"21","2011","hs-","Training and development managers",2.96
-"22","2011","hs-","Transportation, storage, and distribution managers",86.1
-"23","2011","hs-college","Administrative services managers",51.71
-"24","2011","hs-college","Advertising and promotions managers",16.88
-"25","2011","hs-college","Architectural and engineering managers",13.78
-"26","2011","hs-college","Compensation and benefits managers",6.41
-"27","2011","hs-college","Computer and information systems managers",128.29
-"28","2011","hs-college","Construction managers",302.8
-"29","2011","hs-college","Emergency management directors",1.39
-"30","2011","hs-college","Farmers, ranchers, and other agricultural managers",277.75
-"31","2011","hs-college","Financial managers",305.54
-"32","2011","hs-college","Food service managers",389.92
-"33","2011","hs-college","Gaming managers",10.93
-"34","2011","hs-college","Human resources managers",68.52
-"35","2011","hs-college","Industrial production managers",81.33
-"36","2011","hs-college","Lodging managers",52.84
-"37","2011","hs-college","Medical and health services managers",153.41
-"38","2011","hs-college","Natural sciences managers",1.26
-"39","2011","hs-college","Property, real estate, and community association managers",215.43
-"40","2011","hs-college","Public relations and fundraising managers",8.7
-"41","2011","hs-college","Purchasing managers",61
-"42","2011","hs-college","Social and community service managers",70.41
-"43","2011","hs-college","Training and development managers",9.76
-"44","2011","hs-college","Transportation, storage, and distribution managers",94.75
-"45","2011","college+","Administrative services managers",52.1
-"46","2011","college+","Advertising and promotions managers",64.38
-"47","2011","college+","Architectural and engineering managers",88.94
-"48","2011","college+","Compensation and benefits managers",12.71
-"49","2011","college+","Computer and information systems managers",402.04
-"50","2011","college+","Construction managers",311.13
-"51","2011","college+","Emergency management directors",2.92
-"52","2011","college+","Farmers, ranchers, and other agricultural managers",208.31
-"53","2011","college+","Financial managers",673.05
-"54","2011","college+","Food service managers",260.65
-"55","2011","college+","Gaming managers",3.96
-"56","2011","college+","Human resources managers",137.78
-"57","2011","college+","Industrial production managers",115
-"58","2011","college+","Lodging managers",60.38
-"59","2011","college+","Medical and health services managers",320.04
-"60","2011","college+","Natural sciences managers",14.33
-"61","2011","college+","Property, real estate, and community association managers",227.17
-"62","2011","college+","Public relations and fundraising managers",52.11
-"63","2011","college+","Purchasing managers",116.08
-"64","2011","college+","Social and community service managers",227.01
-"65","2011","college+","Training and development managers",25.27
-"66","2011","college+","Transportation, storage, and distribution managers",73.41
-"67","2013","hs-","Administrative services managers",24.29
-"68","2013","hs-","Advertising and promotions managers",3.71
-"69","2013","hs-","Architectural and engineering managers",5.06
-"70","2013","hs-","Compensation and benefits managers",0.66
-"71","2013","hs-","Computer and information systems managers",27.15
-"72","2013","hs-","Construction managers",299.47
-"73","2013","hs-","Emergency management directors",0.4
-"74","2013","hs-","Farmers, ranchers, and other agricultural managers",457.95
-"75","2013","hs-","Financial managers",143.09
-"76","2013","hs-","Food service managers",415.11
-"77","2013","hs-","Gaming managers",7.91
-"78","2013","hs-","Human resources managers",33.44
-"79","2013","hs-","Industrial production managers",56.87
-"80","2013","hs-","Lodging managers",35.34
-"81","2013","hs-","Medical and health services managers",50.89
-"82","2013","hs-","Natural sciences managers",0.32
-"83","2013","hs-","Property, real estate, and community association managers",155.11
-"84","2013","hs-","Public relations and fundraising managers",1.81
-"85","2013","hs-","Purchasing managers",24.72
-"86","2013","hs-","Social and community service managers",30.73
-"87","2013","hs-","Training and development managers",2.1
-"88","2013","hs-","Transportation, storage, and distribution managers",96.97
-"89","2013","hs-college","Administrative services managers",53.97
-"90","2013","hs-college","Advertising and promotions managers",9.86
-"91","2013","hs-college","Architectural and engineering managers",13.49
-"92","2013","hs-college","Compensation and benefits managers",3.69
-"93","2013","hs-college","Computer and information systems managers",136.39
-"94","2013","hs-college","Construction managers",295.86
-"95","2013","hs-college","Emergency management directors",2.23
-"96","2013","hs-college","Farmers, ranchers, and other agricultural managers",270.65
-"97","2013","hs-college","Financial managers",319.2
-"98","2013","hs-college","Food service managers",407.54
-"99","2013","hs-college","Gaming managers",8.56
-"100","2013","hs-college","Human resources managers",63.57
-"101","2013","hs-college","Industrial production managers",84.53
-"102","2013","hs-college","Lodging managers",49.6
-"103","2013","hs-college","Medical and health services managers",160.87
-"104","2013","hs-college","Natural sciences managers",1.01
-"105","2013","hs-college","Property, real estate, and community association managers",238.18
-"106","2013","hs-college","Public relations and fundraising managers",6.33
-"107","2013","hs-college","Purchasing managers",52.66
-"108","2013","hs-college","Social and community service managers",67.61
-"109","2013","hs-college","Training and development managers",9.24
-"110","2013","hs-college","Transportation, storage, and distribution managers",95.05
-"111","2013","college+","Administrative services managers",50.24
-"112","2013","college+","Advertising and promotions managers",50.44
-"113","2013","college+","Architectural and engineering managers",101.95
-"114","2013","college+","Compensation and benefits managers",9.13
-"115","2013","college+","Computer and information systems managers",439.95
-"116","2013","college+","Construction managers",306.69
-"117","2013","college+","Emergency management directors",3.86
-"118","2013","college+","Farmers, ranchers, and other agricultural managers",207.9
-"119","2013","college+","Financial managers",759.47
-"120","2013","college+","Food service managers",259.44
-"121","2013","college+","Gaming managers",5.03
-"122","2013","college+","Human resources managers",124.49
-"123","2013","college+","Industrial production managers",117.1
-"124","2013","college+","Lodging managers",63.7
-"125","2013","college+","Medical and health services managers",373.23
-"126","2013","college+","Natural sciences managers",14.68
-"127","2013","college+","Property, real estate, and community association managers",255.71
-"128","2013","college+","Public relations and fundraising managers",48.3
-"129","2013","college+","Purchasing managers",123.62
-"130","2013","college+","Social and community service managers",225.15
-"131","2013","college+","Training and development managers",23.65
-"132","2013","college+","Transportation, storage, and distribution managers",83.75
-"133","2015","hs-","Administrative services managers",34.71
-"134","2015","hs-","Advertising and promotions managers",2.98
-"135","2015","hs-","Architectural and engineering managers",4.99
-"136","2015","hs-","Compensation and benefits managers",1.3
-"137","2015","hs-","Computer and information systems managers",30.1
-"138","2015","hs-","Construction managers",233.86
-"139","2015","hs-","Emergency management directors",0.32
-"140","2015","hs-","Farmers, ranchers, and other agricultural managers",471.34
-"141","2015","hs-","Financial managers",132.7
-"142","2015","hs-","Food service managers",431.04
-"143","2015","hs-","Gaming managers",7.14
-"144","2015","hs-","Human resources managers",37.08
-"145","2015","hs-","Industrial production managers",67.74
-"146","2015","hs-","Lodging managers",33.4
-"147","2015","hs-","Medical and health services managers",58.37
-"148","2015","hs-","Natural sciences managers",0.51
-"149","2015","hs-","Property, real estate, and community association managers",157.64
-"150","2015","hs-","Public relations and fundraising managers",1.65
-"151","2015","hs-","Purchasing managers",22.09
-"152","2015","hs-","Social and community service managers",32.19
-"153","2015","hs-","Training and development managers",3.44
-"154","2015","hs-","Transportation, storage, and distribution managers",90.48
-"155","2015","hs-college","Administrative services managers",62.84
-"156","2015","hs-college","Advertising and promotions managers",9.88
-"157","2015","hs-college","Architectural and engineering managers",13.11
-"158","2015","hs-college","Compensation and benefits managers",4.82
-"159","2015","hs-college","Computer and information systems managers",144.11
-"160","2015","hs-college","Construction managers",243.26
-"161","2015","hs-college","Emergency management directors",3.08
-"162","2015","hs-college","Farmers, ranchers, and other agricultural managers",294.97
-"163","2015","hs-college","Financial managers",313.22
-"164","2015","hs-college","Food service managers",431.04
-"165","2015","hs-college","Gaming managers",11.27
-"166","2015","hs-college","Human resources managers",69.96
-"167","2015","hs-college","Industrial production managers",81.01
-"168","2015","hs-college","Lodging managers",53.68
-"169","2015","hs-college","Medical and health services managers",165.3
-"170","2015","hs-college","Natural sciences managers",1.29
-"171","2015","hs-college","Property, real estate, and community association managers",237.14
-"172","2015","hs-college","Public relations and fundraising managers",7.98
-"173","2015","hs-college","Purchasing managers",53.37
-"174","2015","hs-college","Social and community service managers",76.59
-"175","2015","hs-college","Training and development managers",9.6
-"176","2015","hs-college","Transportation, storage, and distribution managers",95.19
-"177","2015","college+","Administrative services managers",67.11
-"178","2015","college+","Advertising and promotions managers",46.59
-"179","2015","college+","Architectural and engineering managers",97.91
-"180","2015","college+","Compensation and benefits managers",13.86
-"181","2015","college+","Computer and information systems managers",465.64
-"182","2015","college+","Construction managers",247.62
-"183","2015","college+","Emergency management directors",5.6
-"184","2015","college+","Farmers, ranchers, and other agricultural managers",230.19
-"185","2015","college+","Financial managers",750.77
-"186","2015","college+","Food service managers",290.44
-"187","2015","college+","Gaming managers",7.06
-"188","2015","college+","Human resources managers",155.96
-"189","2015","college+","Industrial production managers",127.75
-"190","2015","college+","Lodging managers",65.27
-"191","2015","college+","Medical and health services managers",391.43
-"192","2015","college+","Natural sciences managers",19.67
-"193","2015","college+","Property, real estate, and community association managers",284.72
-"194","2015","college+","Public relations and fundraising managers",56.3
-"195","2015","college+","Purchasing managers",120.23
-"196","2015","college+","Social and community service managers",261.96
-"197","2015","college+","Training and development managers",26.47
-"198","2015","college+","Transportation, storage, and distribution managers",75.58
+"","year","edu","job","employment","sum"
+"1","2011","hs-","Administrative services","Administrative services managers",24.32
+"2","2011","hs-","Advertising and promotions","Advertising and promotions managers",5.83
+"3","2011","hs-","Architectural and engineering","Architectural and engineering managers",3.39
+"4","2011","hs-","Compensation and benefits","Compensation and benefits managers",1.91
+"5","2011","hs-","Computer and information systems","Computer and information systems managers",22.67
+"6","2011","hs-","Construction","Construction managers",311.13
+"7","2011","hs-","Emergency management directors","Emergency management directors",0.68
+"8","2011","hs-","Farmers, ranchers, and other agricultural","Farmers, ranchers, and other agricultural managers",490.96
+"9","2011","hs-","Financial","Financial managers",127.31
+"10","2011","hs-","Food service","Food service managers",401.48
+"11","2011","hs-","Gaming","Gaming managers",8.12
+"12","2011","hs-","Human resources","Human resources managers",36.69
+"13","2011","hs-","Industrial production","Industrial production managers",62.68
+"14","2011","hs-","Lodging","Lodging managers",34.78
+"15","2011","hs-","Medical and health services","Medical and health services managers",55.54
+"16","2011","hs-","Natural sciences","Natural sciences managers",0.41
+"17","2011","hs-","Property, real estate, and community association","Property, real estate, and community association managers",144.4
+"18","2011","hs-","Public relations and fundraising","Public relations and fundraising managers",2.2
+"19","2011","hs-","Purchasing","Purchasing managers",26.92
+"20","2011","hs-","Social and community service","Social and community service managers",31.26
+"21","2011","hs-","Training and development","Training and development managers",2.96
+"22","2011","hs-","Transportation, storage, and distribution","Transportation, storage, and distribution managers",86.1
+"23","2011","hs-college","Administrative services","Administrative services managers",51.71
+"24","2011","hs-college","Advertising and promotions","Advertising and promotions managers",16.88
+"25","2011","hs-college","Architectural and engineering","Architectural and engineering managers",13.78
+"26","2011","hs-college","Compensation and benefits","Compensation and benefits managers",6.41
+"27","2011","hs-college","Computer and information systems","Computer and information systems managers",128.29
+"28","2011","hs-college","Construction","Construction managers",302.8
+"29","2011","hs-college","Emergency management directors","Emergency management directors",1.39
+"30","2011","hs-college","Farmers, ranchers, and other agricultural","Farmers, ranchers, and other agricultural managers",277.75
+"31","2011","hs-college","Financial","Financial managers",305.54
+"32","2011","hs-college","Food service","Food service managers",389.92
+"33","2011","hs-college","Gaming","Gaming managers",10.93
+"34","2011","hs-college","Human resources","Human resources managers",68.52
+"35","2011","hs-college","Industrial production","Industrial production managers",81.33
+"36","2011","hs-college","Lodging","Lodging managers",52.84
+"37","2011","hs-college","Medical and health services","Medical and health services managers",153.41
+"38","2011","hs-college","Natural sciences","Natural sciences managers",1.26
+"39","2011","hs-college","Property, real estate, and community association","Property, real estate, and community association managers",215.43
+"40","2011","hs-college","Public relations and fundraising","Public relations and fundraising managers",8.7
+"41","2011","hs-college","Purchasing","Purchasing managers",61
+"42","2011","hs-college","Social and community service","Social and community service managers",70.41
+"43","2011","hs-college","Training and development","Training and development managers",9.76
+"44","2011","hs-college","Transportation, storage, and distribution","Transportation, storage, and distribution managers",94.75
+"45","2011","college+","Administrative services","Administrative services managers",52.1
+"46","2011","college+","Advertising and promotions","Advertising and promotions managers",64.38
+"47","2011","college+","Architectural and engineering","Architectural and engineering managers",88.94
+"48","2011","college+","Compensation and benefits","Compensation and benefits managers",12.71
+"49","2011","college+","Computer and information systems","Computer and information systems managers",402.04
+"50","2011","college+","Construction","Construction managers",311.13
+"51","2011","college+","Emergency management directors","Emergency management directors",2.92
+"52","2011","college+","Farmers, ranchers, and other agricultural","Farmers, ranchers, and other agricultural managers",208.31
+"53","2011","college+","Financial","Financial managers",673.05
+"54","2011","college+","Food service","Food service managers",260.65
+"55","2011","college+","Gaming","Gaming managers",3.96
+"56","2011","college+","Human resources","Human resources managers",137.78
+"57","2011","college+","Industrial production","Industrial production managers",115
+"58","2011","college+","Lodging","Lodging managers",60.38
+"59","2011","college+","Medical and health services","Medical and health services managers",320.04
+"60","2011","college+","Natural sciences","Natural sciences managers",14.33
+"61","2011","college+","Property, real estate, and community association","Property, real estate, and community association managers",227.17
+"62","2011","college+","Public relations and fundraising","Public relations and fundraising managers",52.11
+"63","2011","college+","Purchasing","Purchasing managers",116.08
+"64","2011","college+","Social and community service","Social and community service managers",227.01
+"65","2011","college+","Training and development","Training and development managers",25.27
+"66","2011","college+","Transportation, storage, and distribution","Transportation, storage, and distribution managers",73.41
+"67","2013","hs-","Administrative services","Administrative services managers",24.29
+"68","2013","hs-","Advertising and promotions","Advertising and promotions managers",3.71
+"69","2013","hs-","Architectural and engineering","Architectural and engineering managers",5.06
+"70","2013","hs-","Compensation and benefits","Compensation and benefits managers",0.66
+"71","2013","hs-","Computer and information systems","Computer and information systems managers",27.15
+"72","2013","hs-","Construction","Construction managers",299.47
+"73","2013","hs-","Emergency management directors","Emergency management directors",0.4
+"74","2013","hs-","Farmers, ranchers, and other agricultural","Farmers, ranchers, and other agricultural managers",457.95
+"75","2013","hs-","Financial","Financial managers",143.09
+"76","2013","hs-","Food service","Food service managers",415.11
+"77","2013","hs-","Gaming","Gaming managers",7.91
+"78","2013","hs-","Human resources","Human resources managers",33.44
+"79","2013","hs-","Industrial production","Industrial production managers",56.87
+"80","2013","hs-","Lodging","Lodging managers",35.34
+"81","2013","hs-","Medical and health services","Medical and health services managers",50.89
+"82","2013","hs-","Natural sciences","Natural sciences managers",0.32
+"83","2013","hs-","Property, real estate, and community association","Property, real estate, and community association managers",155.11
+"84","2013","hs-","Public relations and fundraising","Public relations and fundraising managers",1.81
+"85","2013","hs-","Purchasing","Purchasing managers",24.72
+"86","2013","hs-","Social and community service","Social and community service managers",30.73
+"87","2013","hs-","Training and development","Training and development managers",2.1
+"88","2013","hs-","Transportation, storage, and distribution","Transportation, storage, and distribution managers",96.97
+"89","2013","hs-college","Administrative services","Administrative services managers",53.97
+"90","2013","hs-college","Advertising and promotions","Advertising and promotions managers",9.86
+"91","2013","hs-college","Architectural and engineering","Architectural and engineering managers",13.49
+"92","2013","hs-college","Compensation and benefits","Compensation and benefits managers",3.69
+"93","2013","hs-college","Computer and information systems","Computer and information systems managers",136.39
+"94","2013","hs-college","Construction","Construction managers",295.86
+"95","2013","hs-college","Emergency management directors","Emergency management directors",2.23
+"96","2013","hs-college","Farmers, ranchers, and other agricultural","Farmers, ranchers, and other agricultural managers",270.65
+"97","2013","hs-college","Financial","Financial managers",319.2
+"98","2013","hs-college","Food service","Food service managers",407.54
+"99","2013","hs-college","Gaming","Gaming managers",8.56
+"100","2013","hs-college","Human resources","Human resources managers",63.57
+"101","2013","hs-college","Industrial production","Industrial production managers",84.53
+"102","2013","hs-college","Lodging","Lodging managers",49.6
+"103","2013","hs-college","Medical and health services","Medical and health services managers",160.87
+"104","2013","hs-college","Natural sciences","Natural sciences managers",1.01
+"105","2013","hs-college","Property, real estate, and community association","Property, real estate, and community association managers",238.18
+"106","2013","hs-college","Public relations and fundraising","Public relations and fundraising managers",6.33
+"107","2013","hs-college","Purchasing","Purchasing managers",52.66
+"108","2013","hs-college","Social and community service","Social and community service managers",67.61
+"109","2013","hs-college","Training and development","Training and development managers",9.24
+"110","2013","hs-college","Transportation, storage, and distribution","Transportation, storage, and distribution managers",95.05
+"111","2013","college+","Administrative services","Administrative services managers",50.24
+"112","2013","college+","Advertising and promotions","Advertising and promotions managers",50.44
+"113","2013","college+","Architectural and engineering","Architectural and engineering managers",101.95
+"114","2013","college+","Compensation and benefits","Compensation and benefits managers",9.13
+"115","2013","college+","Computer and information systems","Computer and information systems managers",439.95
+"116","2013","college+","Construction","Construction managers",306.69
+"117","2013","college+","Emergency management directors","Emergency management directors",3.86
+"118","2013","college+","Farmers, ranchers, and other agricultural","Farmers, ranchers, and other agricultural managers",207.9
+"119","2013","college+","Financial","Financial managers",759.47
+"120","2013","college+","Food service","Food service managers",259.44
+"121","2013","college+","Gaming","Gaming managers",5.03
+"122","2013","college+","Human resources","Human resources managers",124.49
+"123","2013","college+","Industrial production","Industrial production managers",117.1
+"124","2013","college+","Lodging","Lodging managers",63.7
+"125","2013","college+","Medical and health services","Medical and health services managers",373.23
+"126","2013","college+","Natural sciences","Natural sciences managers",14.68
+"127","2013","college+","Property, real estate, and community association","Property, real estate, and community association managers",255.71
+"128","2013","college+","Public relations and fundraising","Public relations and fundraising managers",48.3
+"129","2013","college+","Purchasing","Purchasing managers",123.62
+"130","2013","college+","Social and community service","Social and community service managers",225.15
+"131","2013","college+","Training and development","Training and development managers",23.65
+"132","2013","college+","Transportation, storage, and distribution","Transportation, storage, and distribution managers",83.75
+"133","2015","hs-","Administrative services","Administrative services managers",34.71
+"134","2015","hs-","Advertising and promotions","Advertising and promotions managers",2.98
+"135","2015","hs-","Architectural and engineering","Architectural and engineering managers",4.99
+"136","2015","hs-","Compensation and benefits","Compensation and benefits managers",1.3
+"137","2015","hs-","Computer and information systems","Computer and information systems managers",30.1
+"138","2015","hs-","Construction","Construction managers",233.86
+"139","2015","hs-","Emergency management directors","Emergency management directors",0.32
+"140","2015","hs-","Farmers, ranchers, and other agricultural","Farmers, ranchers, and other agricultural managers",471.34
+"141","2015","hs-","Financial","Financial managers",132.7
+"142","2015","hs-","Food service","Food service managers",431.04
+"143","2015","hs-","Gaming","Gaming managers",7.14
+"144","2015","hs-","Human resources","Human resources managers",37.08
+"145","2015","hs-","Industrial production","Industrial production managers",67.74
+"146","2015","hs-","Lodging","Lodging managers",33.4
+"147","2015","hs-","Medical and health services","Medical and health services managers",58.37
+"148","2015","hs-","Natural sciences","Natural sciences managers",0.51
+"149","2015","hs-","Property, real estate, and community association","Property, real estate, and community association managers",157.64
+"150","2015","hs-","Public relations and fundraising","Public relations and fundraising managers",1.65
+"151","2015","hs-","Purchasing","Purchasing managers",22.09
+"152","2015","hs-","Social and community service","Social and community service managers",32.19
+"153","2015","hs-","Training and development","Training and development managers",3.44
+"154","2015","hs-","Transportation, storage, and distribution","Transportation, storage, and distribution managers",90.48
+"155","2015","hs-college","Administrative services","Administrative services managers",62.84
+"156","2015","hs-college","Advertising and promotions","Advertising and promotions managers",9.88
+"157","2015","hs-college","Architectural and engineering","Architectural and engineering managers",13.11
+"158","2015","hs-college","Compensation and benefits","Compensation and benefits managers",4.82
+"159","2015","hs-college","Computer and information systems","Computer and information systems managers",144.11
+"160","2015","hs-college","Construction","Construction managers",243.26
+"161","2015","hs-college","Emergency management directors","Emergency management directors",3.08
+"162","2015","hs-college","Farmers, ranchers, and other agricultural","Farmers, ranchers, and other agricultural managers",294.97
+"163","2015","hs-college","Financial","Financial managers",313.22
+"164","2015","hs-college","Food service","Food service managers",431.04
+"165","2015","hs-college","Gaming","Gaming managers",11.27
+"166","2015","hs-college","Human resources","Human resources managers",69.96
+"167","2015","hs-college","Industrial production","Industrial production managers",81.01
+"168","2015","hs-college","Lodging","Lodging managers",53.68
+"169","2015","hs-college","Medical and health services","Medical and health services managers",165.3
+"170","2015","hs-college","Natural sciences","Natural sciences managers",1.29
+"171","2015","hs-college","Property, real estate, and community association","Property, real estate, and community association managers",237.14
+"172","2015","hs-college","Public relations and fundraising","Public relations and fundraising managers",7.98
+"173","2015","hs-college","Purchasing","Purchasing managers",53.37
+"174","2015","hs-college","Social and community service","Social and community service managers",76.59
+"175","2015","hs-college","Training and development","Training and development managers",9.6
+"176","2015","hs-college","Transportation, storage, and distribution","Transportation, storage, and distribution managers",95.19
+"177","2015","college+","Administrative services","Administrative services managers",67.11
+"178","2015","college+","Advertising and promotions","Advertising and promotions managers",46.59
+"179","2015","college+","Architectural and engineering","Architectural and engineering managers",97.91
+"180","2015","college+","Compensation and benefits","Compensation and benefits managers",13.86
+"181","2015","college+","Computer and information systems","Computer and information systems managers",465.64
+"182","2015","college+","Construction","Construction managers",247.62
+"183","2015","college+","Emergency management directors","Emergency management directors",5.6
+"184","2015","college+","Farmers, ranchers, and other agricultural","Farmers, ranchers, and other agricultural managers",230.19
+"185","2015","college+","Financial","Financial managers",750.77
+"186","2015","college+","Food service","Food service managers",290.44
+"187","2015","college+","Gaming","Gaming managers",7.06
+"188","2015","college+","Human resources","Human resources managers",155.96
+"189","2015","college+","Industrial production","Industrial production managers",127.75
+"190","2015","college+","Lodging","Lodging managers",65.27
+"191","2015","college+","Medical and health services","Medical and health services managers",391.43
+"192","2015","college+","Natural sciences","Natural sciences managers",19.67
+"193","2015","college+","Property, real estate, and community association","Property, real estate, and community association managers",284.72
+"194","2015","college+","Public relations and fundraising","Public relations and fundraising managers",56.3
+"195","2015","college+","Purchasing","Purchasing managers",120.23
+"196","2015","college+","Social and community service","Social and community service managers",261.96
+"197","2015","college+","Training and development","Training and development managers",26.47
+"198","2015","college+","Transportation, storage, and distribution","Transportation, storage, and distribution managers",75.58

@@ -28,7 +28,7 @@ shinyServer(function(input, output) {
   output$Plot <- renderPlot({
     
     cleaned1 <- total_summary2 %>% 
-      filter(employment == input$question)
+      filter(job == input$question)
     
     ggplot(cleaned1, aes_string(x = "year", y = "sum", color = "edu", group = "edu")) + 
       geom_point() + 

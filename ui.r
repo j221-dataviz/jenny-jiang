@@ -17,15 +17,15 @@ question <-  read_csv("summary1.csv")
 shinyUI(fluidPage(
   
   #  Application title
-  titlePanel("States vs word choices"),
+  titlePanel("Total number worker by year"),
   
   # Sidebar with sliders that demonstrate various available
   # options
   sidebarLayout(
     sidebarPanel(
       # Simple integer interval
-      selectInput("question", "Question:",
-                  choices = question$employment),
+      selectInput("question", "Industry:",
+                  choices = question$job),
       
       submitButton("Submit")
       
