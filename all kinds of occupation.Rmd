@@ -1,0 +1,160 @@
+---
+title: "more occupations"
+author: "Shangjun Jiang"
+date: "12/1/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+require(MASS)
+library(hexbin)
+library(corrplot)
+library(car)
+library(ggplot2)
+require(methods)
+require("leaps")
+library(tidyr)
+library(reshape2)
+library(ridge)
+require(lars)
+library(descr)
+library(stringr)
+library(readr)
+library(readxl)
+library(tidyverse)
+#library(plyr)
+library(dplyr)
+
+
+library(htmlwidgets)
+library(ggiraph)
+
+library(highcharter)
+library(RColorBrewer)
+library(flexdashboard)
+library(leaflet)
+library(scatterD3)
+library("billboarder")
+library(rbokeh)
+library(metricsgraphics)
+
+setwd("~/Desktop/jenny-jiang")
+
+```
+
+geom_Point
+salary, job title
+gganimate
+
+move apart or total 
+
+
+
+```{r}
+### load data
+All_emp_edu_salary_1015 <- read.csv("clean_data/ALL_emp_edu_salary_1015.csv")
+All_emp_edu_salary_1015$X <- NULL
+
+
+#colnames(emp_edu_salary_1015)[11:17] <- c("less hs", "high school", "some college, no degree", "associate", "bachelor", "master", "doctor/professional")
+
+
+### wide to long format 
+Allmelt1015 <- melt(All_emp_edu_salary_1015, 
+     measure.vars = c("less.hs", "high.school", "associate", "some.college..no.degree", "bachelor", "master", "doctor.professional"), 
+     variable.name = "degrees", 
+     value.name = "number")
+
+Allmelt1015$edu <- Allmelt1015$degrees
+
+
+# college +
+levels(Allmelt1015$edu)[levels(Allmelt1015$edu)=="bachelor"] <- "college+"
+levels(Allmelt1015$edu)[levels(Allmelt1015$edu)=="doctor.professional"] <- "college+"
+levels(Allmelt1015$edu)[levels(Allmelt1015$edu)=="master"] <- "college+"
+
+# hs - college
+levels(Allmelt1015$edu)[levels(Allmelt1015$edu)=="some.college..no.degree"] <- "hs-college"
+levels(Allmelt1015$edu)[levels(Allmelt1015$edu)=="associate"] <- "hs-college"
+
+# hs -
+levels(Allmelt1015$edu)[levels(Allmelt1015$edu)=="high.school"] <- "hs-"
+levels(Allmelt1015$edu)[levels(Allmelt1015$edu)=="less.hs"] <- "hs-"
+
+head(melt1015)
+
+Allmelt1015$total_number <- NULL
+Allmelt1015$men_number <- NULL
+Allmelt1015$women_number <- NULL
+
+
+Allmelt1015$year <- as.factor(Allmelt1015$year)
+Allmelt1015$code <- as.factor(Allmelt1015$code)
+
+
+colnames(Allmelt1015)[colnames(Allmelt1015) == "median"] <- "median_age"
+colnames(Allmelt1015)[colnames(Allmelt1015) == "total_median"] <- "median_salary"
+
+
+
+melt1015$job <- gsub(' managers','',melt1015$employment)
+
+
+
+total_summary4 <- Allmelt1015 %>%
+  group_by(year, employment) %>%
+  summarize(sum_salary=sum(median_salary, na.rm=T))
+
+
+
+year_1011 <- total_summary3[total_summary3$year == "2011",]
+year_1213 <- total_summary3[total_summary3$year == "2013",]
+year_1415 <- total_summary3[total_summary3$year == "2015",]
+
+```
+
+
+
+
+
+```{r}
+
+## salary vs total number 
+ALL_degrees_employ <- scatterD3(data = Allmelt1015, x = number, y = median_salary,
+          col_var = degrees, symbol_var = employment)
+
+# save as a web page
+saveWidget(ALL_degrees_employ, "ALL_degrees_employ.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+## salary vs total number 
+ALL_edu_employ <- scatterD3(data = Allmelt1015, x = number, y = median_salary,
+          col_var = edu, symbol_var = employment)
+
+          
+# save as a web page
+saveWidget(ALL_edu_employ, "ALL_edu_employ.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

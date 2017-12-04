@@ -1,0 +1,251 @@
+---
+title: "Draw 3 Plots"
+author: "Shangjun Jiang"
+date: "12/3/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+## load libaries 
+require(MASS)
+library(hexbin)
+library(corrplot)
+library(car)
+library(ggplot2)
+require(methods)
+require("leaps")
+library(tidyr)
+library(reshape2)
+library(ridge)
+require(lars)
+library(descr)
+library(stringr)
+library(readr)
+library(readxl)
+library(tidyverse)
+#library(plyr)
+library(dplyr)
+
+
+library(htmlwidgets)
+library(ggiraph)
+
+library(highcharter)
+library(RColorBrewer)
+library(flexdashboard)
+library(leaflet)
+library(scatterD3)
+library("billboarder")
+library(rbokeh)
+library(metricsgraphics)
+
+
+library(gganimate)
+library(scales)
+library(gapminder)
+library(magick)
+library(animation)
+library(tweenr)
+
+
+# set work directory  Please change this
+setwd("~/Desktop/jenny-jiang")
+
+```
+
+
+## detailed information about occupation, education, salary
+```{r}
+### load data
+melt1015 <- read.csv("total1015.csv")
+melt1015$X <- NULL
+
+
+  
+  
+head(melt1015)
+#employement: job titles
+#median_salary: median salary for all pop
+#men_median: median salary for men
+#women_median: median salary for women
+#Total: total number in this employment
+#median_age: median age in this employment (contains missing values)
+#code: full version of the code
+#year: 2011 represents 2010-2011; 2013 represents 2012-2013; 2015 represents 2014-15
+#degress: detailed degress ("less.hs", "high.school", "associate", "some.college..no.degree", "bachelor", "master", "doctor.professional")
+#number: detailed number by degrees and by employment 
+#edu: aggregated degress level (hs-, hs-college, college+)
+
+
+
+
+
+
+```
+
+## PLOT 1: High Chart
+### overall trend by three levels of education
+
+```{r}
+### load data
+overview_total <- read.csv("overview_total.csv")
+overview_total$X <- NULL
+total_sum_degree1 <- overview_total %>% 
+  group_by(year, edu) %>% 
+  summarize(sum_number = sum (number, na.rm = T))
+
+  
+  
+head(overview_total)
+
+
+# define a ColorBrewer palette
+cols <- brewer.pal(7, "Set1")
+
+# make chart
+edu_chart <- hchart(total_sum_degree1, "line", hcaes(x = year, y = sum_number, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle"))) %>% 
+  hc_title(text="Total number of workers by educational level in 2010-2015")
+
+# plot chart
+print(edu_chart)
+
+# save as a web page
+saveWidget(edu_chart, "total_edu.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+
+
+
+
+```
+
+
+## PLOT 2: Shiny App
+
+```{r}
+
+## aggregate to get the total number of employment by detailed education. 
+total_summary_degrees <- melt1015 %>%
+  group_by(year, employment,edu) %>%
+  summarize(sum_number=sum(number, na.rm=T))
+
+#write.csv(total_summary_degrees, "total_summary_degrees.csv")  This is how I get the file for Shiny App.
+
+head(total_summary_degrees)
+#year: year, 2011;2013;2015
+#employement: job title
+#edu: aggregated educational level
+#sum_number: number of workers
+
+
+cols <- brewer.pal(3, "Set1")
+
+cleaned1 <- total_summary_degrees["Actors" == total_summary_degrees$employment, ] 
+
+
+hchart(cleaned1, "line", hcaes(x = year, y = sum_number, group = edu)) %>%
+      hc_colors(cols)
+      hc_chart(style = list(fontFamily = "Georgia",
+                            fontWeight = "bold")) %>%
+      hc_xAxis(title = list(text="Year")) %>%
+      hc_yAxis(title = list(text="Total Number of Workers")) %>%
+      hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle"))) %>% 
+
+
+
+```
+
+
+
+## Plot 3
+
+## new dataset: employment by salary
+
+
+### this following is to extract 22 industries. 
+```{r}
+
+### the following is to get the salary dataset
+## codebook data load
+codebook <- read_excel(path = "codebook.xlsx", sheet = 1)
+
+colnames(codebook) <- c("indus", "employment", "2011", "2013", "2015")
+
+total_salary <-  melt(codebook, 
+     measure.vars = c("2011", "2013", "2015"), 
+     variable.name = "year", 
+     value.name = "median_salary")
+
+
+### the rest of the industry
+melt1015_other <- melt1015[grepl("-", melt1015$code),]
+
+melt1015_other$indus <- str_extract_all(melt1015_other$code2, "[0-9]{2}-")
+
+melt1015_other$indus <- str_extract_all(melt1015_other$indus, "[0-9]{2}")
+
+melt1015_other$indus <- as.numeric(melt1015_other$indus)
+melt1015_other$indus <- as.factor(melt1015_other$indus)
+
+
+industry_22 <- melt1015_other %>% 
+  group_by(indus,year,edu) %>% 
+  summarize(sum_num=sum(number, na.rm = T))
+
+
+
+## join the dataset with the codebook
+sum_22 <- merge(x = industry_22, y = total_salary, by = c("indus", "year"))  
+
+sum_22$year <- as.factor(sum_22$year)
+
+
+```
+
+
+
+
+## Animate changes
+
+```{r}
+
+
+object <- ggplot(data = sum_22, aes(x=sum_num, y=employment, frames=year), alpha=0.5) +
+  geom_point(data = sum_22, aes(color=edu)) +
+  geom_point(aes(x= -500, y=employment, size=median_salary), data = total_salary)+
+  theme_minimal(base_size = 10, base_family = "Georgia") 
+
+gganimate(object)
+
+# save as a GIF
+gganimate(object, "edu_salary.gif", ani.width = 750, ani.height = 500, interval = 1.5)
+
+
+# save as a video 
+gganimate(object, "edu_salary.mp4", ani.width = 800, ani.height = 450, interval = 1.5)
+
+
+## add a pause
+system("convert edu_salary.gif \\( +clone -set delay 300 \\) +swap +delete  edu_salary_with_pause.gif")
+
+## add a pause
+system("convert edu_salary.mp4 \\( +clone -set delay 300 \\) +swap +delete  edu_salary_with_pause.mp4")
+
+#system("ffmpeg -i warming2.mp4 -vf 'setpts=2*PTS' warming3.mp4")
+
+
+
+  
+```
+
+
+
+

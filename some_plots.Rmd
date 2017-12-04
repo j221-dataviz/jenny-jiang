@@ -48,7 +48,7 @@ setwd("~/Desktop/jenny-jiang")
 
 ```{r}
 ### load data
-emp_edu_salary_1015 <- read.csv("clean_data/emp_edu_salary_1015.csv")
+emp_edu_salary_1015 <- read.csv("clean_data/emp_edu_1015.csv")
 emp_edu_salary_1015$X <- NULL
 
 
@@ -93,25 +93,59 @@ colnames(melt1015)[colnames(melt1015) == "total_median"] <- "median_salary"
 
 
 
+
+#melt1015$job <- gsub(' managers','',melt1015$employment)
+
+
+
+total_summary_num <- melt1015 %>%
+  group_by(year, employment) %>%
+  summarize(sum_number=sum(number, na.rm=T))
+
+
+total_summary_degrees <- melt1015 %>%
+  group_by(year, employment,edu) %>%
+  summarize(sum_number=sum(number, na.rm=T))
+
+#write.csv(total_summary_degrees, "total_summary_degrees.csv")
+
+
+
+year_1011 <- total_summary3[total_summary3$year == "2011",]
+year_1213 <- total_summary3[total_summary3$year == "2013",]
+year_1415 <- total_summary3[total_summary3$year == "2015",]
+
+
 ```
 
 
 
+
+
+
+
 ```{r}
-mtcars$names <- rownames(mtcars)
-scatterD3(data = mtcars, x = wt, y = mpg, lab = names,
-          col_var = cyl, symbol_var = am,
-          xlab = "Weight", ylab = "Mpg", col_lab = "Cylinders",
-          symbol_lab = "Manual transmission")
+cleaned1 <- total_summary2 %>% 
+  filter("Actors" == total_summary2$employment)
 
-melt1015$names <- rownames(melt1015)
+cols <- brewer.pal(7, "Set1")
+
+hchart(cleaned1, "line", hcaes(x = "year", y = "sum_number", color = "edu", group = "edu")) %>%
+  hc_colors(cols) 
 
 
-          
-scatterD3(data = melt1015, x = year, y = number, 
-          col_var = degrees, symbol_var = edu,
-          size_var = median_salary, 
-          size_range = c(10,1000), point_opacity = 0.7)
+hchart(oct_lax_flights_agg, "line", x = dep_delay_cat, y = med_arr_delay, group = origin)
+
+
+
+```
+
+
+
+
+
+```{r}
+
 
 
 ## salary vs total number 
@@ -138,144 +172,6 @@ saveWidget(edu_employ, "edu_employ.html", selfcontained = TRUE, libdir = NULL, b
 
 
 ```{r}
-food_stamps_column <- ggplot(total_summary, aes(x = edu, y = sum)) + 
-  xlab("Year") +
-  ylab("total number of employees") +
-  theme_minimal(base_size = 14, base_family = "Georgia") + 
-  geom_bar_interactive(stat = "identity", 
-         color = "#888888", 
-         fill = "#CCCCCC", 
-         alpha = 0.5,
-         aes(tooltip = paste0("number: ",sum),
-             data_id = edu)) 
-
-# make interactive version of the chart
-food_stamps_column_interactive <- ggiraph(code = print(food_stamps_column), 
-                                   height_svg = 4,
-                                   hover_css = "fill-opacity:1;stroke:red",
-                                   tooltip_extra_css = "background-color:#f0f0f0;color:black;padding:5px")
-
-food_stamps_column_interactive
-
-```
-
-
-```{r}
-
-computer_info %>%
-  mjs_plot(x=degrees, y=Total, width=600, height=500) %>%
-  mjs_point(color_accessor=edu,
-            x_rug=TRUE, y_rug=TRUE,
-            color_type="category",
-            color_range=brewer.pal(n=11, name="RdBu")[c(1, 5, 11)],
-            least_squares=TRUE)
-
-
-
-billboarder() %>% 
-  bb_scatterplot(data = melt1015) %>% 
-  bb_linechart(data = data.frame(lowess(melt1015)), x = "median_salary") %>% 
-  bb_data(types = list(dist = "scatter", y = "Total"))
-
-    cols <- brewer.pal(7, "Set1")
-    
-    
-    hchart(cleaned1, "line", hcaes(x = "year", y = "sum", group = "edu")) %>%
-      hc_colors(cols) %>%
-      hc_chart(style = list(fontFamily = "Georgia",
-                            fontWeight = "bold")) %>%
-      hc_title(text = input$question,
-               margin = 20, align = "center",
-               style = list(useHTML = TRUE)) %>% 
-      hc_xAxis(title = list(text="Year")) %>%
-      hc_yAxis(title = list(text="Total Number of Workers")) %>%
-      hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
-    
-    
-    
-```
-
-
-```{r}
-highchart() %>% 
-  hc_title(text = "This is a bar graph describing my favorite pies
-           including a pie chart describing my favorite bars") %>%
-  hc_subtitle(text = "In percentage of tastiness and awesomeness") %>% 
-  hc_add_series_labels_values(favorite_pies$pie, favorite_pies$percent, name = "Pie",
-                              colorByPoint = TRUE, type = "column") %>% 
-  hc_add_series_labels_values(favorite_bars$bar, favorite_bars$percent,
-                              colors = substr(terrain.colors(5), 0 , 7), type = "pie",
-                              name = "Bar", colorByPoint = TRUE, center = c('35%', '10%'),
-                              size = 100, dataLabels = list(enabled = FALSE)) %>% 
-  hc_yAxis(title = list(text = "percentage of tastiness"),
-           labels = list(format = "{value}%"), max = 100) %>% 
-  hc_xAxis(categories = favorite_pies$pie) %>% 
-  hc_legend(enabled = FALSE) %>% 
-  hc_tooltip(pointFormat = "{point.y}%") %>% 
-  hc_credits(enabled = TRUE, text = "Source: HIMYM",
-             href = "https://www.youtube.com/watch?v=f_J8QU1m0Ng",
-             style = list(fontSize = "12px"))
-```
-
-
-```{r}
-
-                              colors = substr(terrain.colors(5), 0 , 7),
-
-highchart() %>% 
-  hc_title(text = "This is a bar graph describing my favorite pies
-           including a pie chart describing my favorite bars") %>%
-  hc_subtitle(text = "In percentage of tastiness and awesomeness") %>% 
-  hc_add_series_labels_values(year_1011$job, year_1011$sum_salary, name = "Pie",
-                              colorByPoint = TRUE, type = "column") %>% 
-  hc_add_series_labels_values(year_1011$job, year_1011$sum_salary, type = "pie",
-                              name = "Bar", colorByPoint = TRUE, center = c('35%', '10%'),
-                              size = 100, dataLabels = list(enabled = FALSE)) %>% 
-  hc_yAxis(title = list(text = "percentage of tastiness"),
-           labels = list(format = "{value}%"), max = 100) %>% 
-  hc_xAxis(categories = year_1011$job) %>% 
-  hc_legend(enabled = FALSE) %>% 
-  hc_tooltip(pointFormat = "{point.y}%")
-
-```
-
-
-
-
-
-```{r}
-
-melt1015$job <- gsub(' managers','',melt1015$employment)
-
-
-
-total_summary3 <- melt1015 %>%
-  group_by(year, job) %>%
-  summarize(sum_salary=sum(median_salary, na.rm=T))
-
-
-
-year_1011 <- total_summary3[total_summary3$year == "2011",]
-year_1213 <- total_summary3[total_summary3$year == "2013",]
-year_1415 <- total_summary3[total_summary3$year == "2015",]
-
-
-year_1011 %>%
-  mjs_plot(x=sum_salary, y=job) %>%
-  mjs_bar() 
-
-
-
-ggplot(year_1011, aes(x=job, y=sum_salary) )+
-  geom_bar()
-
-
-stat = "identity"
-```
-
-
-
-```{r}
 
 total_summary3 <- melt1015 %>%
   group_by(year, job) %>%
@@ -289,7 +185,7 @@ year_1415 <- total_summary3[total_summary3$year == "2015",]
 
 
 
-hchart(year_1011)
+
 
 median_salary_11 <- highchart() %>% 
   hc_title(text = "Median Salary for 22 occupations in 2011") %>%
@@ -310,13 +206,14 @@ median_salary <- highchart() %>%
   hc_title(text = "Median Salary for 22 occupations in 2010-2015") %>%
   hc_subtitle(text = "In percentage of tastiness and awesomeness") %>% 
   hc_add_series_labels_values(year_1415$job, year_1011$sum_salary, name = "2014-15",
-                              colorByPoint = TRUE, type = "column", max = 8000) %>% 
+                              colorByPoint = TRUE, type = "column") %>% 
   hc_add_series_labels_values(year_1213$job, year_1213$sum_salary, name = "2012-13",
-                              colorByPoint = TRUE, type = "column", max = 8000) %>% 
+                              colorByPoint = TRUE, type = "column") %>% 
   hc_add_series_labels_values(year_1011$job, year_1011$sum_salary, name = "2010-11",
-                              colorByPoint = TRUE, type = "column", max = 8000) %>% 
+                              colorByPoint = TRUE, type = "column") %>% 
   hc_yAxis(title = list(text = "wages"),
-           labels = list(format = "{value}")) %>% 
+           labels = list(format = "{value}"),
+           max = 8000) %>% 
   hc_xAxis(categories = year_1011$job)
 
 
@@ -324,13 +221,6 @@ median_salary <- highchart() %>%
 saveWidget(median_salary, "median_salary.html", selfcontained = TRUE, libdir = NULL, background = "white")
 
 
-
-
-
-
-  hc_add_series_labels_values(year_1011$job, year_1011$sum_salary, type = "pie",
-                              name = "Bar", colorByPoint = TRUE, center = c('35%', '10%'),
-                              size = 100, dataLabels = list(enabled = FALSE)) %>% 
 ```
 
 
@@ -936,6 +826,17 @@ print(edu_chart)
 saveWidget(edu_chart, "total_edu.html", selfcontained = TRUE, libdir = NULL, background = "white")
 
 
+
+# make chart
+edu_chart <- hchart(total_summary, "line", hcaes(x = year, y = median_salary, group = edu)) %>%
+  hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
+
 ################### total number by detailed education
 
 total_summary1 <- melt1015 %>%
@@ -960,6 +861,59 @@ print(degrees_chart)
 
 # save as a web page
 saveWidget(degrees_chart, "total_degrees.html", selfcontained = TRUE, libdir = NULL, background = "white")
+
+```
+
+
+
+####### here 
+
+
+```{r}
+total_summary <- melt1015 %>%
+  group_by(year, edu,job) %>%
+  summarize(sum =sum(number, na.rm=T))
+
+ggplot(melt1015, aes(x=median_salary, y=number,))
+
+
+object <- 
+
+  
+ggplot(melt1015, aes(x=number, y=employment), alpha=0.5) +
+  geom_point(aes(color=edu)) +
+  geom_point(aes(x=0, y=employment, size=median_salary))
+
+gganimate(object)
+
+# a different dataset, 
+# DATASET 1: numbers by year and by educational level and job 
+# DATASET 2: median salary by year and job. aggregate data. 
+
+size=median_salary, x=median_salary, y=0,
+
+
+
+
+```
+
+
+
+```{r}
+
+total_summary <- melt1015 %>%
+  group_by(year, edu) %>%
+  summarize(median_sa =median(median_salary, na.rm=T))
+
+# make chart
+edu_chart <- hchart(total_summary, "line", hcaes(x = year, y = median_sa, group = edu)) %>%
+  # hc_colors(cols) %>%
+  hc_chart(style = list(fontFamily = "Georgia",
+                        fontWeight = "bold")) %>%
+  hc_xAxis(title = list(text="Year")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+
 
 ```
 

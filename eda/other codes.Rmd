@@ -1,0 +1,92 @@
+---
+title: "other codes"
+author: "Shangjun Jiang"
+date: "12/1/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+
+
+```{r}
+food_stamps_column <- ggplot(total_summary, aes(x = edu, y = sum)) + 
+  xlab("Year") +
+  ylab("total number of employees") +
+  theme_minimal(base_size = 14, base_family = "Georgia") + 
+  geom_bar_interactive(stat = "identity", 
+         color = "#888888", 
+         fill = "#CCCCCC", 
+         alpha = 0.5,
+         aes(tooltip = paste0("number: ",sum),
+             data_id = edu)) 
+
+# make interactive version of the chart
+food_stamps_column_interactive <- ggiraph(code = print(food_stamps_column), 
+                                   height_svg = 4,
+                                   hover_css = "fill-opacity:1;stroke:red",
+                                   tooltip_extra_css = "background-color:#f0f0f0;color:black;padding:5px")
+
+food_stamps_column_interactive
+
+mtcars$names <- rownames(mtcars)
+scatterD3(data = mtcars, x = wt, y = mpg, lab = names,
+          col_var = cyl, symbol_var = am,
+          xlab = "Weight", ylab = "Mpg", col_lab = "Cylinders",
+          symbol_lab = "Manual transmission")
+
+melt1015$names <- rownames(melt1015)
+
+
+          
+scatterD3(data = melt1015, x = year, y = number, 
+          col_var = degrees, symbol_var = edu,
+          size_var = median_salary, 
+          size_range = c(10,1000), point_opacity = 0.7)
+
+
+
+computer_info %>%
+  mjs_plot(x=degrees, y=Total, width=600, height=500) %>%
+  mjs_point(color_accessor=edu,
+            x_rug=TRUE, y_rug=TRUE,
+            color_type="category",
+            color_range=brewer.pal(n=11, name="RdBu")[c(1, 5, 11)],
+            least_squares=TRUE)
+
+
+
+billboarder() %>% 
+  bb_scatterplot(data = melt1015) %>% 
+  bb_linechart(data = data.frame(lowess(melt1015)), x = "median_salary") %>% 
+  bb_data(types = list(dist = "scatter", y = "Total"))
+
+    cols <- brewer.pal(7, "Set1")
+    
+    
+    hchart(cleaned1, "line", hcaes(x = "year", y = "sum", group = "edu")) %>%
+      hc_colors(cols) %>%
+      hc_chart(style = list(fontFamily = "Georgia",
+                            fontWeight = "bold")) %>%
+      hc_title(text = input$question,
+               margin = 20, align = "center",
+               style = list(useHTML = TRUE)) %>% 
+      hc_xAxis(title = list(text="Year")) %>%
+      hc_yAxis(title = list(text="Total Number of Workers")) %>%
+      hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle")))
+    
+    
+    
+    
+```
+
+
+
+
+```
+

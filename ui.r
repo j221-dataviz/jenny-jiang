@@ -4,12 +4,13 @@
 
 library(shiny)
 library(readr)
+library(rsconnect)
 
 
 
-total_summary2 <- read_csv("summary1.csv")
+total_summary2 <- read_csv("total_summary_degrees.csv")
 total_summary2$X1 <- NULL
-question <-  read_csv("summary1.csv")
+question <-  read_csv("total_summary_degrees.csv")
 
 
 
@@ -17,17 +18,15 @@ question <-  read_csv("summary1.csv")
 shinyUI(fluidPage(
   
   #  Application title
-  titlePanel("Total number worker by year"),
+  titlePanel("Occupation by detailed education in 2010-2015"),
   
   # Sidebar with sliders that demonstrate various available
   # options
   sidebarLayout(
     sidebarPanel(
       # Simple integer interval
-      selectInput("question", "Industry:",
-                  choices = question$job),
-      
-      submitButton("Submit")
+      selectInput("question", "Occupation:",
+                  choices = question$employment)
       
     ),
     
