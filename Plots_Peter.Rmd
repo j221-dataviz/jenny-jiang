@@ -207,6 +207,13 @@ sum_22 <- merge(x = industry_22, y = total_salary, by = c("indus", "year"))
 
 sum_22$year <- as.factor(sum_22$year)
 
+sum_22$edu <- as.factor(sum_22$edu)
+levels(sum_22$edu) <- c("College Degrees or Higher", "High School or Lower", "High School to College")
+colnames(sum_22) <- c("indus","year","Education_Level","sum_num","employment","median_salary")
+
+  
+  
+
 
 ```
 
@@ -219,14 +226,22 @@ sum_22$year <- as.factor(sum_22$year)
 
 
 object <- ggplot(data = sum_22, aes(x=sum_num, y=employment, frames=year), alpha=0.5) +
-  geom_point(data = sum_22, aes(color=edu)) +
+  geom_point(data = sum_22, aes(color=Education_Level), size=5) +
   geom_point(aes(x= -500, y=employment, size=median_salary), data = total_salary)+
-  theme_minimal(base_size = 10, base_family = "Georgia") 
+  labs(x = "Number of Workers",
+           y = "Occupation") +
+  theme_minimal(base_size = 12, base_family = "Georgia") +
+  theme(plot.title = element_text(size = 40, family = "Georgia", face = "bold"),
+        text=element_text(family="Times New Roman", size = 25),
+            axis.text.x=element_text(colour="black", size = 20), 
+            axis.text.y=element_text(colour="black", size = 20))  
 
 gganimate(object)
 
+            
+            
 # save as a GIF
-gganimate(object, "edu_salary.gif", ani.width = 750, ani.height = 500, interval = 1.5)
+gganimate(object, "edu_salary.gif", ani.width = 1250, ani.height = 700, interval = 1.5)
 
 
 # save as a video 
