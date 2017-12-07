@@ -26,13 +26,16 @@ shinyUI(fluidPage(
     sidebarPanel(
       # Simple integer interval
       selectInput("question", "Occupation:",
-                  choices = question$employment)
+                  choices = question$employment),
+      
+      plotOutput("Plot1")
       
     ),
     
     
+    
     mainPanel(
-      plotOutput("Plot")
+      plotOutput("Plot2")
     )
   )
 ))

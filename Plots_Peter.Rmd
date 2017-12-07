@@ -93,13 +93,17 @@ head(melt1015)
 ### load data
 overview_total <- read.csv("overview_total.csv")
 overview_total$X <- NULL
+  
+overview_total$edu <- as.factor(overview_total$edu)
+levels(overview_total$edu) <- c("College Degrees or Higher", "High School or Lower", "High School to College")
+  
+#head(overview_total)
+
+#table(overview_total$edu)
+
 total_sum_degree1 <- overview_total %>% 
   group_by(year, edu) %>% 
   summarize(sum_number = sum (number, na.rm = T))
-
-  
-  
-head(overview_total)
 
 
 # define a ColorBrewer palette
@@ -111,7 +115,7 @@ edu_chart <- hchart(total_sum_degree1, "line", hcaes(x = year, y = sum_number, g
   hc_chart(style = list(fontFamily = "Georgia",
                         fontWeight = "bold")) %>%
   hc_xAxis(title = list(text="Year")) %>%
-  hc_yAxis(title = list(text="Total Number of Workers")) %>%
+  hc_yAxis(title = list(text="Total Number of Workers (thousands)")) %>%
   hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle"))) %>% 
   hc_title(text="Total number of workers by educational level in 2010-2015")
 
@@ -160,6 +164,13 @@ hchart(cleaned1, "line", hcaes(x = year, y = sum_number, group = edu)) %>%
       hc_plotOptions(series = list(marker = list(enabled = TRUE, symbol = "circle"))) %>% 
 
 
+        
+        
+cleaned1 <- total_summary2 %>% 
+  filter("Actors" == total_summary2$employment)
+
+ggplot(cleaned1) +
+  geom_bar(aes(x=year, y=sum_number), stat = "identity")
 
 ```
 
@@ -228,7 +239,7 @@ colnames(sum_22) <- c("indus","year","Education_Level","sum_num","employment","m
 object <- ggplot(data = sum_22, aes(x=sum_num, y=employment, frames=year), alpha=0.5) +
   geom_point(data = sum_22, aes(color=Education_Level), size=5) +
   geom_point(aes(x= -500, y=employment, size=median_salary), data = total_salary)+
-  labs(x = "Number of Workers",
+  labs(x = "Number of Workers (thousands)",
            y = "Occupation") +
   theme_minimal(base_size = 12, base_family = "Georgia") +
   theme(plot.title = element_text(size = 40, family = "Georgia", face = "bold"),
@@ -241,7 +252,7 @@ gganimate(object)
             
             
 # save as a GIF
-gganimate(object, "edu_salary.gif", ani.width = 1250, ani.height = 700, interval = 1.5)
+gganimate(object, "edu_salary.gif", ani.width = 1100, ani.height = 650, interval = 1.5)
 
 
 # save as a video 

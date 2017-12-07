@@ -24,19 +24,41 @@ library(magrittr)
 
 total_summary2 <- read_csv("total_summary_degrees.csv")
 total_summary2$X1 <- NULL
+total_summary2$edu1 <- total_summary2$edu
 total_summary2$edu <- as.factor(total_summary2$edu)
 levels(total_summary2$edu) <- c("College Degrees or Higher", "High School or Lower", "High School to College")
-colnames(total_summary2) <- c("year","employment","Education_Level","sum_number")
+colnames(total_summary2) <- c("year","employment","Education_Level","sum_number", "Edu")
 
   
-  
+
+
 shinyServer(function(input, output) {
   
-  output$Plot <- renderPlot({
+  output$Plot1 <- renderPlot({
     
     cleaned1 <- total_summary2 %>%
       filter(employment == input$question)
     
+    ggplot(cleaned1) +
+      geom_bar(aes_string(x = "year", y = "sum_number",  fill = "Edu") 
+               ,stat = "identity") +
+      labs(x = "Year",
+           y = "Total Number of Workers (thousands)") +
+      theme_minimal(base_size = 12, base_family = "Georgia") +
+      theme(plot.title = element_text(size = 20, family = "Georgia", face = "bold"),
+            text=element_text(family="Times New Roman", size = 20),
+            axis.text.x=element_text(colour="black", size = 15),
+            axis.text.y=element_text(colour="black", size = 15)) +
+      theme(legend.position="bottom")
+    
+  })
+    
+  
+  output$Plot2 <- renderPlot({
+    
+    cleaned1 <- total_summary2 %>%
+      filter(employment == input$question)
+
     
     ### GGPLOT WORKS!
     ggplot(cleaned1, aes_string(x = "year", y = "sum_number", color = "Education_Level", group = "Education_Level")) +
@@ -44,7 +66,7 @@ shinyServer(function(input, output) {
       geom_line() +
       labs(title = input$question,
            x = "Year",
-           y = "Total Number of Workers") +
+           y = "Total Number of Workers (thousands)") +
       geom_text(aes_string(x="year",
                     y="sum_number",
                     label = paste0("sum_number")),
