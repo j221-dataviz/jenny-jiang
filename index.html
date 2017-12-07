@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
 
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+
 <style>
 .chart-container {
   position: relative;
@@ -52,10 +58,54 @@
   text-decoration: none;
 }
 
+.button {
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+      .hidden {
+        display: none;
+      }
 
 header {
   padding: 154px 0 100px;
 }
+
+
 
 
 </style>
@@ -69,7 +119,7 @@ header {
 <!--  navigation -->
 
 
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top">
+<nav class="navbar navbar-toggleable-md navbar-dark bg-dark fixed-top">
   
    <div class="container">
 
@@ -103,37 +153,83 @@ header {
 
        <header >
       <div class="container text-center">
+      	<br>
         <h1>Is the industry becoming education-biased?</h1>
         <br>
-        <p class="lead">Using BLS dataset <a src = "https://www.bls.gov/emp/ep_table_111.htm">Educational Attainment for Workers 25 years and older by detailed occupation</a> </p>
-        <p>I looked at 22 industry by detailed education in 2010-2015</p>
 
-        <button class = 'btn'> Yes</button>
+        <h2> What do you think? Please click only once </h2>
+        <br>
+        <br>
+        <p> After you express your opinion, let's look at some data from the Bureau of Labor Statistics and understand the overview trend. </p>
+
+   
+ 
+
+        <button class = 'button' onclick="document.getElementById('hidden1').style.display = 'block';" > 
+        <span> 
+        	
+        	Yes </span> </a> </button>     
+
+
+        <button class = 'button' onclick="document.getElementById('hidden2').style.display = 'block';"> <span> No </span></button>
 
         <br>
         <br>
 
-        <button class = 'btn'>No</button>
+<center><img id="hidden1" class="hidden" src= "https://dzftds8z9s83c.cloudfront.net/office_hours_events/posters/production/80/video/Sheryl.Sandberg-crop.jpg?1376354405"> </center>
+
+   <center> <img id="hidden2" class="hidden" src= "https://harvardgazette.files.wordpress.com/2017/03/mark-zuckerberg-headshot-11.jpg"></center> 
+
+        <br>
+        <br>
+
+        <br>
+        <br>
+
+  <p class="lead">Using BLS dataset <a src = "https://www.bls.gov/emp/ep_table_111.htm">Educational Attainment for Workers 25 years and older by detailed occupation</a> </p>
+        <p>I looked at 22 industry by detailed education in 2010-2015 along with their salary information</p>
+        <p>I divided my analysis into three parts </p>
+        <ol>
+        <p> 1. Overview of the labor market ; 2. Changes for Specific occupation; 3. Animation along with salary data </p>
+    </ol>
+
+
+
       </div>
     </header>
 
 
     <section id="overview">
 
-  <center><h1> PLOT 1: Three levels of Education ALL 252 Occupation Overview </h1></center>
+  <center><h1>I: Three levels of Education ALL 252 Occupation Overview </h1></center>
+
+  <br>
+  <p> First, let's look at the overall trend of three educational levels. </p>
+
+  <br>
   <div class="chart-container">
 
     <iframe src="total_edu.html" frameborder="0" marginheight="0" marginwidth="0"></iframe>
 
   </div>
+    <p> Note: College Degrees or Higher = Bachelor, Master, Doctor/Professional;  High School to College = Some college but no degree, associate; High School or Lower = High School, Less than High School </p>
+
 </section>
+
+<br>
+
+<br>
 
 <section id="shiny">
 
 
-  <center><h1>PLOT 2: Shiny App </h1></center>
+  <center><h1>II: Detailed Look at 252 occupations </h1></center>
+  <br>
 
+  <p> You can select from 252 occupations and see the changes over time </p>
+  <p> Please select by occupation. After you select a specific occupation, you will be able to see the trend overtime on the right side, and the total number on the left side by three levels of educaiton.
 
+  <br>
 
 
   <div class= 'chart-container'>
@@ -147,7 +243,12 @@ header {
 <section id="animation">
 
 
-  <center><h1>PLOT 3: GIF </h1></center>
+  <center><h1>III: Let's animate over time!</h1></center>
+    <br>
+
+	<p>Does higher education means more chances to get hired? Does that also give you well-paid jobs?</p>
+
+	<br>
   <div class="chart-container">
 
   <iframe src="edu_salary_with_pause.gif"></iframe>
@@ -155,6 +256,9 @@ header {
   </div>
 
 </section>
+
+<br>
+<br>
 
 
 
@@ -165,10 +269,12 @@ header {
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center">UC Berkeley Fall 2017 Journalism 221: Intro to Data Visualization </p>
+        <p class="m-0 text-center text-white">UC Berkeley Fall 2017 Journalism 221: Intro to Data Visualization </p>
       </div>
       <!-- /.container -->
     </footer>
+
+
 
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
