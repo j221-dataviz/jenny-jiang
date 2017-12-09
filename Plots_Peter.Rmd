@@ -239,6 +239,8 @@ colnames(sum_22) <- c("indus","year","Education_Level","sum_num","employment","m
 object <- ggplot(data = sum_22, aes(x=sum_num, y=employment, frames=year), alpha=0.5) +
   geom_point(data = sum_22, aes(color=Education_Level), size=5) +
   geom_point(aes(x= -500, y=employment, size=median_salary), data = total_salary)+
+  scale_color_brewer(palette = "Set1", name ="Education level") +
+  scale_size_continuous(name="Median salary") +
   labs(x = "Number of Workers (thousands)",
            y = "Occupation") +
   theme_minimal(base_size = 12, base_family = "Georgia") +
